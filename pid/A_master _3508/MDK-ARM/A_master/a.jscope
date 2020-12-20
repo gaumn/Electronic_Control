@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<JScopeProject>
+    <FileVersion major="1" minor="1" />
+    <Project>
+        <Configuration>
+            <JLink>
+                <Options Connection="1" IsRTTSession="0" IsRTTWithTimeStamp="1" SamplingPeriod="1000" SerialNo="0" JTAG_IRPre="-1" JTAG_DRPre="-1" IP="" TargetDevice="Cortex-M3" TargetInterface="SWD" InterfaceSpeed="4000" />
+            </JLink>
+            <ScriptFile Name="C:\Users\gaumn\Desktop\PID\pid\A_master\MDK-ARM\A_master\a.jscope\unspecified" />
+            <ElfFile Name="C:\Users\gaumn\Desktop\PID\pid\A_master\MDK-ARM\A_master\A_master.axf" />
+            <DataFile Name="..\rpm150-0.5-1-0.01.csv" />
+            <RawFile Name="..\rpm150-0.5-1-0.01.csv" />
+            <Scope>
+                <Options TimeResolutionUs="10000000" />
+            </Scope>
+        </Configuration>
+        <Windows>
+            <Graph Show="1" />
+            <Watch Show="1" />
+        </Windows>
+        <SelectedSymbols>
+            <Symbol>
+                <Options Name="real_rpm" Address="0x20000008" Type="uint" TypeID="8" Size="4" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="0" YMaxSampled="10" YAvgSampled="3" Offset="4" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="5" MaxValue="26" File="..\app\chassis_task.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="rpm_set" Address="0x2000000C" Type="uint" TypeID="8" Size="4" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="50" YMaxSampled="50" YAvgSampled="50" Offset="8" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="20" MaxValue="107" File="..\app\chassis_task.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+        </SelectedSymbols>
+    </Project>
+</JScopeProject>
