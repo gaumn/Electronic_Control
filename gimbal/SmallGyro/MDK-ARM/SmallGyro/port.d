@@ -1,0 +1,12 @@
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+smallgyro\port.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stddef.h
+smallgyro\port.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+smallgyro\port.o: ../Inc/FreeRTOSConfig.h
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+smallgyro\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

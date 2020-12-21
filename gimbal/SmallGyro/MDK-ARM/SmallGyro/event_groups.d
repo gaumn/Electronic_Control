@@ -1,0 +1,15 @@
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
+smallgyro\event_groups.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+smallgyro\event_groups.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stddef.h
+smallgyro\event_groups.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+smallgyro\event_groups.o: ../Inc/FreeRTOSConfig.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+smallgyro\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h

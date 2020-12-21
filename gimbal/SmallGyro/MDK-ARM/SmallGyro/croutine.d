@@ -1,0 +1,14 @@
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+smallgyro\croutine.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stddef.h
+smallgyro\croutine.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+smallgyro\croutine.o: ../Inc/FreeRTOSConfig.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/croutine.h
+smallgyro\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
