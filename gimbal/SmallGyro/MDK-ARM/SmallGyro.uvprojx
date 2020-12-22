@@ -405,6 +405,11 @@
               <FileType>1</FileType>
               <FilePath>..\bsp\can_user.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_rc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\bsp_rc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -419,6 +424,16 @@
               <FileName>INS_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\INS_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>remote_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\remote_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>gimbal_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\gimbal_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -461,9 +476,6 @@
               <FilePath>..\rmlib\devices\BMI088driver.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
           <GroupName>Application/User</GroupName>
@@ -719,6 +731,9 @@
               <FilePath>../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>

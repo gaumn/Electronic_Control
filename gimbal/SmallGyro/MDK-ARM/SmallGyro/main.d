@@ -64,3 +64,6 @@ smallgyro\main.o: ../Inc/gpio.h
 smallgyro\main.o: ..\bsp\can_user.h
 smallgyro\main.o: ..\bsp\boards\bsp_delay.h
 smallgyro\main.o: ..\app\struct_typedef.h
+smallgyro\main.o: ..\app\remote_control.h
+smallgyro\main.o: ..\bsp\bsp_rc.h
+smallgyro\main.o: ..\bsp\struct_typedef.h
