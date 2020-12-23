@@ -38,8 +38,25 @@
 
 
 #define IMU_temp_PWM(pwm)  imu_pwm_set(pwm)                    //pwm给定
+/**
+  * @brief          获取四元数
+  * @param[in]      none
+  * @retval         INS_quat的指针
+  */
+const fp32 *get_INS_quat_point(void);
 
-
+/**
+  * @brief          获取欧拉角, 0:yaw, 1:pitch, 2:roll 单位 rad
+  * @param[in]      none
+  * @retval         INS_angle的指针
+  */
+const fp32 *get_INS_angle_point(void);
+/**
+  * @brief          获取角速度,0:x轴, 1:y轴, 2:roll轴 单位 rad/s
+  * @param[in]      none
+  * @retval         INS_gyro的指针
+  */
+const fp32 *get_gyro_data_point(void);
 /**
   * @brief          control the temperature of bmi088
   * @param[in]      temp: the temperature of bmi088
@@ -210,6 +227,19 @@ void get_angle(fp32 q[4], fp32 *yaw, fp32 *pitch, fp32 *roll)
     *roll = atan2f(2.0f*(q[0]*q[1]+q[2]*q[3]),2.0f*(q[0]*q[0]+q[3]*q[3])-1.0f);
 }
 
+/**
+  * @brief          获取欧拉角, 0:yaw, 1:pitch, 2:roll 单位 rad
+  * @param[in]      none
+  * @retval         INS_angle的指针
+  */
+const fp32 *get_INS_angle_point(void)
+{
+    return INS_angle;
+}
+extern const fp32 *get_gyro_data_point(void)
+{
+    return bmi088_real_data.gyro;
+}
 /**
   * @brief          control the temperature of bmi088
   * @param[in]      temp: the temperature of bmi088

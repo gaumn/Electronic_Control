@@ -29,6 +29,7 @@
 #include "can_user.h"
 #include "chassis_task.h"
 #include "INS_task.h"
+#include "gimbal_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,7 +54,7 @@
 osThreadId defaultTaskHandle;
 osThreadId imuTaskHandle;
 osThreadId chassisTaskHandle;
-
+osThreadId gimbalTaskHandle;
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
    
@@ -117,6 +118,9 @@ void MX_FREERTOS_Init(void) {
 	
 	osThreadDef(imuTask, INS_task, osPriorityRealtime, 0, 1024);
   imuTaskHandle = osThreadCreate(osThread(imuTask), NULL);
+	
+	osThreadDef(gimbalTask, gimbal_task, osPriorityRealtime, 0, 1024);
+  gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
 

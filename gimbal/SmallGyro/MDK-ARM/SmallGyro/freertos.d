@@ -61,3 +61,7 @@ smallgyro\freertos.o: ..\rmlib\pid.h
 smallgyro\freertos.o: ..\rmlib\algorithm\user_lib.h
 smallgyro\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 smallgyro\freertos.o: ..\app\INS_task.h
+smallgyro\freertos.o: ..\app\gimbal_task.h
+smallgyro\freertos.o: ..\app\remote_control.h
+smallgyro\freertos.o: ..\bsp\bsp_rc.h
+smallgyro\freertos.o: ..\bsp\struct_typedef.h
