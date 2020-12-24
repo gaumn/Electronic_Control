@@ -67,3 +67,4 @@ smallgyro\main.o: ..\app\struct_typedef.h
 smallgyro\main.o: ..\app\remote_control.h
 smallgyro\main.o: ..\bsp\bsp_rc.h
 smallgyro\main.o: ..\bsp\struct_typedef.h
+smallgyro\main.o: E:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include\EventRecorder.h

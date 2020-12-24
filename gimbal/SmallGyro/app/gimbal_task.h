@@ -31,38 +31,38 @@
 #include "can_user.h"
 #include "pid.h"
 #include "remote_control.h"
-//pitch speed close-loop PID params, max out and max iout
-//pitch 速度环 PID参数以及 PID最大输出，积分输出
-#define PITCH_SPEED_PID_KP        2900.0f
-#define PITCH_SPEED_PID_KI        60.0f
-#define PITCH_SPEED_PID_KD        0.0f
-#define PITCH_SPEED_PID_MAX_OUT   30000.0f
-#define PITCH_SPEED_PID_MAX_IOUT  10000.0f
+//pitch palstance close-loop PID params, max out and max iout
+//pitch 角速度环 PID参数以及 PID最大输出，积分输出
+#define PITCH_PALSTANCE_PID_KP        2900.0f
+#define PITCH_PALSTANCE_PID_KI        60.0f
+#define PITCH_PALSTANCE_PID_KD        0.0f
+#define PITCH_PALSTANCE_PID_MAX_OUT   30000.0f
+#define PITCH_PALSTANCE_PID_MAX_IOUT  10000.0f
 
-//yaw speed close-loop PID params, max out and max iout
-//yaw 速度环 PID参数以及 PID最大输出，积分输出
-#define YAW_SPEED_PID_KP        3600.0f
-#define YAW_SPEED_PID_KI        20.0f
-#define YAW_SPEED_PID_KD        0.0f
-#define YAW_SPEED_PID_MAX_OUT   30000.0f
-#define YAW_SPEED_PID_MAX_IOUT  5000.0f
+//yaw palstance close-loop PID params, max out and max iout
+//yaw 角速度环 PID参数以及 PID最大输出，积分输出
+#define YAW_PALSTANCE_PID_KP        3600.0f
+#define YAW_PALSTANCE_PID_KI        20.0f
+#define YAW_PALSTANCE_PID_KD        0.0f
+#define YAW_PALSTANCE_PID_MAX_OUT   30000.0f
+#define YAW_PALSTANCE_PID_MAX_IOUT  5000.0f
 
 //pitch gyro angle close-loop PID params, max out and max iout
 //pitch 角度环 角度由陀螺仪解算 PID参数以及 PID最大输出，积分输出
-#define PITCH_GYRO_ABSOLUTE_PID_KP 15.0f
-#define PITCH_GYRO_ABSOLUTE_PID_KI 0.0f
-#define PITCH_GYRO_ABSOLUTE_PID_KD 0.0f
+#define PITCH_GYRO_ANGLE_PID_KP 15.0f
+#define PITCH_GYRO_ANGLE_PID_KI 0.0f
+#define PITCH_GYRO_ANGLE_PID_KD 0.0f
 
-#define PITCH_GYRO_ABSOLUTE_PID_MAX_OUT 10.0f
-#define PITCH_GYRO_ABSOLUTE_PID_MAX_IOUT 0.0f
+#define PITCH_GYRO_ANGLE_PID_MAX_OUT 10.0f
+#define PITCH_GYRO_ANGLE_PID_MAX_IOUT 0.0f
 
 //yaw gyro angle close-loop PID params, max out and max iout
 //yaw 角度环 角度由陀螺仪解算 PID参数以及 PID最大输出，积分输出
-#define YAW_GYRO_ABSOLUTE_PID_KP        26.0f
-#define YAW_GYRO_ABSOLUTE_PID_KI        0.0f
-#define YAW_GYRO_ABSOLUTE_PID_KD        0.3f
-#define YAW_GYRO_ABSOLUTE_PID_MAX_OUT   10.0f
-#define YAW_GYRO_ABSOLUTE_PID_MAX_IOUT  0.0f
+#define YAW_GYRO_ANGLE_PID_KP        26.0f
+#define YAW_GYRO_ANGLE_PID_KI        0.0f
+#define YAW_GYRO_ANGLE_PID_KD        0.3f
+#define YAW_GYRO_ANGLE_PID_MAX_OUT   10.0f
+#define YAW_GYRO_ANGLE_PID_MAX_IOUT  0.0f
 
 //pitch encode angle close-loop PID params, max out and max iout
 //pitch 角度环 角度由编码器 PID参数以及 PID最大输出，积分输出
@@ -187,8 +187,8 @@ typedef struct
 typedef struct
 {
     const motor_measure_t *gimbal_motor_measure;
-    gimbal_PID_t gimbal_motor_absolute_angle_pid;
-    gimbal_PID_t gimbal_motor_relative_angle_pid;
+    pid_type_def gimbal_motor_gyro_angle_pid;
+    pid_type_def gimbal_motor_relative_angle_pid;
     pid_type_def gimbal_motor_gyro_pid;
     gimbal_motor_mode_e gimbal_motor_mode;
     gimbal_motor_mode_e last_gimbal_motor_mode;
@@ -198,10 +198,10 @@ typedef struct
 
     fp32 relative_angle;     //rad
     fp32 relative_angle_set; //rad
-    fp32 absolute_angle;     //rad
-    fp32 absolute_angle_set; //rad
-    fp32 motor_gyro;         //rad/s
-    fp32 motor_gyro_set;
+    fp32 gyro_angle;     //rad
+    fp32 gyro_angle_set; //rad
+    fp32 motor_gyro_palstance;         //rad/s
+    fp32 motor_gyro_palstance_set;
     fp32 motor_speed;
     fp32 raw_cmd_current;
     fp32 current_set;

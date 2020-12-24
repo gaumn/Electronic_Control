@@ -296,16 +296,16 @@ set_motor_current(&hcan2,&hCAN1_TxHeader,motor1,motor2,motor3,motor4);
 
 const motor_measure_t *get_yaw_gimbal_motor_measure_point(void)
 {
-    return &motor_chassis[4];
+    return &motor_chassis[0];
 }
 const motor_measure_t *get_pitch_gimbal_motor_measure_point(void)
 {
-    return &motor_chassis[5];
+    return &motor_chassis[1];
 }
-const motor_measure_t *get_trigger_motor_measure_point(void)
-{
-    return &motor_chassis[0];
-}
+//const motor_measure_t *get_trigger_motor_measure_point(void)
+//{
+//    return &motor_chassis[5];
+//}
 const motor_measure_t *get_chassis_motor_measure_point(uint8_t i)
 {
     return &motor_chassis[(i & 0x03)];

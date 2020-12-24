@@ -36,6 +36,8 @@
 #include "can_user.h"
 #include "bsp_delay.h"
 #include "remote_control.h"
+#include "EventRecorder.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -118,6 +120,9 @@ int main(void)
   MX_I2C2_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+
+	EventRecorderInitialize(EventRecordAll,1U);
+	EventRecorderStart();
 	delay_init();
   vApp_User_CAN_Configuration();
 	remote_control_init();

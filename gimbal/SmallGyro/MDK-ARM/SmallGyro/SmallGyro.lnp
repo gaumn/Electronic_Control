@@ -1,4 +1,4 @@
---cpu Cortex-M4.fp
+--cpu=Cortex-M4.fp
 "smallgyro\startup_stm32f407xx.o"
 "smallgyro\bsp_delay.o"
 "smallgyro\bsp_imu_pwm.o"
@@ -63,7 +63,9 @@
 "smallgyro\cmsis_os.o"
 "smallgyro\heap_4.o"
 "smallgyro\port.o"
+"smallgyro\eventrecorder.o"
+"smallgyro\retarget_io.o"
 --library_type=microlib --strict --scatter "SmallGyro\SmallGyro.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "SmallGyro.map" -o SmallGyro\SmallGyro.axf
