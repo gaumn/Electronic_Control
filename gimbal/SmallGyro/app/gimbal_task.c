@@ -36,7 +36,7 @@ gimbal_control_t gimbal_control;
 
 //motor current 
 //发送的电机电流
-static int16_t yaw_can_set_current = 0, pitch_can_set_current = 0;
+ int16_t yaw_can_set_current = 0, pitch_can_set_current = 0;
 /**
   * @brief          云台任务，间隔 GIMBAL_CONTROL_TIME 1ms
   * @param[in]      pvParameters: 空
@@ -73,15 +73,13 @@ void gimbal_task(void const *pvParameters)
 #else
         pitch_can_set_current = gimbal_control.gimbal_pitch_motor.given_current;
 #endif
-
-       
-          CAN_cmd_gimbal(yaw_can_set_current, pitch_can_set_current, 0, 0);
-       
+        CAN_cmd_chassis(yaw_can_set_current, pitch_can_set_current, 0, 0);
 
 #if GIMBAL_TEST_MODE
         J_scope_gimbal_test();
 #endif
-        vTaskDelay(GIMBAL_CONTROL_TIME);
+      
+			vTaskDelay(GIMBAL_CONTROL_TIME);
 #if INCLUDE_uxTaskGetStackHighWaterMark
         gimbal_high_water = uxTaskGetStackHighWaterMark(NULL);
 #endif
@@ -147,7 +145,8 @@ static void gimbal_feedback_update(gimbal_control_t *feedback_update)
     //云台数据更新
     feedback_update->gimbal_pitch_motor.gyro_angle = *(feedback_update->gimbal_INT_angle_point + INS_PITCH_ADDRESS_OFFSET);
     feedback_update->gimbal_yaw_motor.gyro_angle = *(feedback_update->gimbal_INT_angle_point + INS_YAW_ADDRESS_OFFSET);
-		
+		feedback_update->gimbal_pitch_motor.motor_gyro_palstance = *(feedback_update->gimbal_INT_gyro_point + INS_PITCH_ADDRESS_OFFSET);
+		feedback_update->gimbal_yaw_motor.motor_gyro_palstance=*(feedback_update->gimbal_INT_gyro_point + INS_YAW_ADDRESS_OFFSET);
 }
 
 static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd)
@@ -175,6 +174,10 @@ static void gimbal_control_loop(gimbal_control_t *control_loop)
     {
         return;
     }
+		control_loop->gimbal_yaw_motor.gyro_angle_set=0;
+	  control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_yaw_motor.gyro_angle,control_loop->gimbal_yaw_motor.gyro_angle_set);
+		control_loop->gimbal_yaw_motor.given_current=control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_pid,control_loop->gimbal_yaw_motor.motor_gyro_palstance,control_loop->gimbal_yaw_motor.motor_gyro_palstance_set);
+
     
    
 }

@@ -28,15 +28,15 @@ Project File Date:  12/23/2020
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\KEil\MDK\ARM\ARMCC\Bin'
 Build target 'SmallGyro'
 compiling gimbal_task.c...
-..\app\gimbal_task.c(104): warning:  #177-D: variable "Pitch_palstance_pid"  was declared but never referenced
+..\app\gimbal_task.c(102): warning:  #177-D: variable "Pitch_palstance_pid"  was declared but never referenced
   		fp32 Pitch_palstance_pid[3] = {PITCH_PALSTANCE_PID_KP, PITCH_PALSTANCE_PID_KI, PITCH_PALSTANCE_PID_KD};
-..\app\gimbal_task.c(106): warning:  #177-D: variable "Pitch_gyro_angle_pid"  was declared but never referenced
+..\app\gimbal_task.c(104): warning:  #177-D: variable "Pitch_gyro_angle_pid"  was declared but never referenced
   		fp32 Pitch_gyro_angle_pid[3] = {PITCH_GYRO_ANGLE_PID_KP, PITCH_GYRO_ANGLE_PID_KI, PITCH_GYRO_ANGLE_PID_KD};
-..\app\gimbal_task.c(153): warning:  #177-D: function "motor_ecd_to_angle_change"  was declared but never referenced
+..\app\gimbal_task.c(152): warning:  #177-D: function "motor_ecd_to_angle_change"  was declared but never referenced
   static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd)
 ..\app\gimbal_task.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=34900 RO-data=752 RW-data=312 ZI-data=31664  
+Program Size: Code=34416 RO-data=688 RW-data=288 ZI-data=30600  
 FromELF: creating hex file...
 "SmallGyro\SmallGyro.axf" - 0 Error(s), 3 Warning(s).
 
@@ -72,13 +72,13 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.1.2
 
    * Component: Keil.ARM Compiler::Compiler:Event Recorder:DAP:1.4.0
-      Include file:  Include\EventRecorder.h
       Include file:  Config\EventRecorderConf.h
+      Include file:  Include\EventRecorder.h
       Source file:   Source\EventRecorder.c
 
    * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:EVR:1.2.0
       Source file:   Source\retarget_io.c
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

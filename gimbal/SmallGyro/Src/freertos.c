@@ -113,9 +113,9 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-	osThreadDef(chassisTask, chassis_task, osPriorityNormal, 0, 512);
-  chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
-	
+//	osThreadDef(chassisTask, chassis_task, osPriorityNormal, 0, 512);
+//  chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
+//	
 	osThreadDef(imuTask, INS_task, osPriorityRealtime, 0, 1024);
   imuTaskHandle = osThreadCreate(osThread(imuTask), NULL);
 	
