@@ -1,7 +1,7 @@
 chassis\chassis_task.o: ..\app\chassis_task.c
 chassis\chassis_task.o: ..\app\chassis_task.h
 chassis\chassis_task.o: ..\app\struct_typedef.h
-chassis\chassis_task.o: ..\rmlib\pid.h
+chassis\chassis_task.o: ..\bsp\can_user.h
 chassis\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 chassis\chassis_task.o: ../Inc/stm32f4xx_hal_conf.h
 chassis\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -40,11 +40,14 @@ chassis\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 chassis\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 chassis\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 chassis\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-chassis\chassis_task.o: ..\rmlib\algorithm\user_lib.h
-chassis\chassis_task.o: ..\bsp\can_user.h
 chassis\chassis_task.o: ../Inc/can.h
 chassis\chassis_task.o: ../Inc/main.h
 chassis\chassis_task.o: ../Inc/gpio.h
+chassis\chassis_task.o: ..\rmlib\pid.h
+chassis\chassis_task.o: ..\rmlib\algorithm\user_lib.h
+chassis\chassis_task.o: ..\app\remote_control.h
+chassis\chassis_task.o: ..\bsp\bsp_rc.h
+chassis\chassis_task.o: ..\bsp\struct_typedef.h
 chassis\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 chassis\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 chassis\chassis_task.o: ../Inc/FreeRTOSConfig.h
@@ -59,4 +62,5 @@ chassis\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timer
 chassis\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 chassis\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 chassis\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-chassis\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+chassis\chassis_task.o: ..\app\INS_task.h
+chassis\chassis_task.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\math.h

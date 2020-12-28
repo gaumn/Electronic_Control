@@ -50,4 +50,8 @@ extern fp32 theta_format(fp32 Ang);
 //弧度格式化为-PI~PI
 #define rad_format(Ang) loop_fp32_constrain((Ang), -PI, PI)
 
+#ifndef PI
+#define PI					3.14159265358979f
+#endif
+
 #endif

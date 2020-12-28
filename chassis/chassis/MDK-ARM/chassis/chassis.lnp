@@ -15,8 +15,6 @@
 "chassis\pid.o"
 "chassis\mahonyahrs.o"
 "chassis\user_lib.o"
-"chassis\eventrecorder.o"
-"chassis\retarget_io.o"
 "chassis\main.o"
 "chassis\gpio.o"
 "chassis\adc.o"
@@ -64,6 +62,8 @@
 "chassis\cmsis_os.o"
 "chassis\heap_4.o"
 "chassis\port.o"
+"chassis\eventrecorder.o"
+"chassis\retarget_io.o"
 --library_type=microlib --strict --scatter "chassis\chassis.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

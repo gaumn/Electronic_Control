@@ -313,27 +313,26 @@ void CAN_cmd_gimbal(int16_t motor1, int16_t motor2, int16_t motor3, int16_t moto
 set_motor_current(&hcan2,&hCAN1_TxHeader,motor1,motor2,motor3,motor4);
 }
 
-const motor_measure_t *get_yaw_gimbal_motor_measure_point(void)
-{
-    return &motor_chassis[0];
-}
-const motor_measure_t *get_pitch_gimbal_motor_measure_point(void)
-{
-    return &motor_chassis[1];
-}
-const motor_measure_t *get_pluck_motor_measure_point(void)
-{
-    return &motor_chassis[2];
-}
-
-const motor_measure_t *get_Friction1_motor_measure_point(void)
-{
-    return &motor_chassis[4];
-}
-const motor_measure_t *get_Friction2_motor_measure_point(void)
-{
-    return &motor_chassis[5];
-}
+//const motor_measure_t *get_yaw_gimbal_motor_measure_point(void)
+//{
+//    return &motor_chassis[0];
+//}
+//const motor_measure_t *get_pitch_gimbal_motor_measure_point(void)
+//{
+//    return &motor_chassis[1];
+//}
+//const motor_measure_t *get_pluck_motor_measure_point(void)
+//{
+//    return &motor_chassis[2];
+//}
+//const motor_measure_t *get_Friction1_motor_measure_point(void)
+//{
+//    return &motor_chassis[4];
+//}
+//const motor_measure_t *get_Friction2_motor_measure_point(void)
+//{
+//    return &motor_chassis[5];
+//}
 const motor_measure_t *get_chassis_motor_measure_point(uint8_t i)
 {
     return &motor_chassis[(i & 0x03)];

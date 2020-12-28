@@ -59,5 +59,7 @@ chassis\freertos.o: ..\app\chassis_task.h
 chassis\freertos.o: ..\app\struct_typedef.h
 chassis\freertos.o: ..\rmlib\pid.h
 chassis\freertos.o: ..\rmlib\algorithm\user_lib.h
-chassis\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+chassis\freertos.o: ..\app\remote_control.h
+chassis\freertos.o: ..\bsp\bsp_rc.h
+chassis\freertos.o: ..\bsp\struct_typedef.h
 chassis\freertos.o: ..\app\INS_task.h
