@@ -9,6 +9,19 @@
 #include "pid.h"
 #include "shoot.h"
 
+#define rc_deadband_limit(input, output, dealine)        \
+    {                                                    \
+        if ((input) > (dealine) || (input) < -(dealine)) \
+        {                                                \
+            (output) = (input);                          \
+        }                                                \
+        else                                             \
+        {                                                \
+            (output) = 0;                                \
+        }                                                \
+    }
+
+
 //motor enconde value format, range[0-8191]
 //电机编码值规整 0—8191
 #define ecd_format(ecd)         \
@@ -23,8 +36,9 @@ uint32_t gimbal_high_water;
 #endif
 static void gimbal_init(gimbal_control_t *init);
 static void gimbal_feedback_update(gimbal_control_t *feedback_update);
-static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd);
+//static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd);
 static void gimbal_control_loop(gimbal_control_t *control_loop);
+static void gimbal_set_control(gimbal_control_t *set_control);
 #if GIMBAL_TEST_MODE
 //j-scope 帮助pid调参
 static void J_scope_gimbal_test(void);
@@ -61,6 +75,7 @@ void gimbal_task(void const *pvParameters)
     {
        
         gimbal_feedback_update(&gimbal_control);             //云台数据反馈
+			  gimbal_set_control(&gimbal_control);                 //设置云台控制量
         gimbal_control_loop(&gimbal_control);                //云台控制PID计算
         shoot_can_set_current = shoot_control_loop();        //射击任务控制循环
 #if YAW_TURN
@@ -117,13 +132,17 @@ static void gimbal_init(gimbal_control_t *init)
     PID_init(&init->gimbal_yaw_motor.gimbal_motor_gyro_pid, PID_POSITION, Yaw_palstance_pid, YAW_PALSTANCE_PID_MAX_OUT, YAW_PALSTANCE_PID_MAX_IOUT);
     PID_init(&init->gimbal_yaw_motor.gimbal_motor_gyro_angle_pid, PID_POSITION, Yaw_gyro_angle_pid, YAW_GYRO_ANGLE_PID_MAX_OUT, YAW_GYRO_ANGLE_PID_MAX_IOUT);
     //初始化pitch电机pid
-
+    PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_pid, PID_POSITION, Pitch_palstance_pid, PITCH_PALSTANCE_PID_MAX_OUT, PITCH_PALSTANCE_PID_MAX_IOUT);
+    PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid, PID_POSITION, Pitch_gyro_angle_pid, PITCH_GYRO_ANGLE_PID_MAX_OUT, PITCH_GYRO_ANGLE_PID_MAX_IOUT);
+  
 
     gimbal_feedback_update(init);
 
     init->gimbal_yaw_motor.gyro_angle_set = init->gimbal_yaw_motor.gyro_angle;
     init->gimbal_yaw_motor.motor_gyro_palstance_set = init->gimbal_yaw_motor.motor_gyro_palstance;
-
+		
+    init->gimbal_pitch_motor.gyro_angle_set = init->gimbal_pitch_motor.gyro_angle;
+    init->gimbal_pitch_motor.motor_gyro_palstance_set = init->gimbal_pitch_motor.motor_gyro_palstance;
 
 //    init->gimbal_pitch_motor.absolute_angle_set = init->gimbal_pitch_motor.absolute_angle;
 //    init->gimbal_pitch_motor.relative_angle_set = init->gimbal_pitch_motor.relative_angle;
@@ -146,6 +165,7 @@ static void gimbal_feedback_update(gimbal_control_t *feedback_update)
     //云台数据更新
     feedback_update->gimbal_pitch_motor.gyro_angle = *(feedback_update->gimbal_INT_angle_point + INS_PITCH_ADDRESS_OFFSET);
     feedback_update->gimbal_yaw_motor.gyro_angle = *(feedback_update->gimbal_INT_angle_point + INS_YAW_ADDRESS_OFFSET);
+		
 		feedback_update->gimbal_pitch_motor.motor_gyro_palstance = *(feedback_update->gimbal_INT_gyro_point + INS_PITCH_ADDRESS_OFFSET);
 		feedback_update->gimbal_yaw_motor.motor_gyro_palstance=*(feedback_update->gimbal_INT_gyro_point + INS_YAW_ADDRESS_OFFSET);
 
@@ -153,20 +173,20 @@ static void gimbal_feedback_update(gimbal_control_t *feedback_update)
 
 }
 
-static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd)
-{
-    int32_t relative_ecd = ecd - offset_ecd;
-    if (relative_ecd > HALF_ECD_RANGE)
-    {
-        relative_ecd -= ECD_RANGE;
-    }
-    else if (relative_ecd < -HALF_ECD_RANGE)
-    {
-        relative_ecd += ECD_RANGE;
-    }
+//static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd)
+//{
+//    int32_t relative_ecd = ecd - offset_ecd;
+//    if (relative_ecd > HALF_ECD_RANGE)
+//    {
+//        relative_ecd -= ECD_RANGE;
+//    }
+//    else if (relative_ecd < -HALF_ECD_RANGE)
+//    {
+//        relative_ecd += ECD_RANGE;
+//    }
 
-    return relative_ecd * MOTOR_ECD_TO_RAD;
-}
+//    return relative_ecd * MOTOR_ECD_TO_RAD;
+//}
 /**
   * @brief          控制循环，根据控制设定值，计算电机电流值，进行控制
   * @param[out]     gimbal_control_loop:"gimbal_control"变量指针.
@@ -178,15 +198,41 @@ static void gimbal_control_loop(gimbal_control_t *control_loop)
     {
         return;
     }
-		control_loop->gimbal_yaw_motor.gyro_angle_set=0;
-	  control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_yaw_motor.gyro_angle,control_loop->gimbal_yaw_motor.gyro_angle_set);
-		control_loop->gimbal_yaw_motor.given_current=control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_pid,control_loop->gimbal_yaw_motor.motor_gyro_palstance,control_loop->gimbal_yaw_motor.motor_gyro_palstance_set);
+
+	  control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_yaw_motor.gyro_angle,control_loop->gimbal_yaw_motor.gyro_angle_set);
+		control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_pid,control_loop->gimbal_yaw_motor.motor_gyro_palstance,control_loop->gimbal_yaw_motor.motor_gyro_palstance_set);
+		
+	  control_loop->gimbal_pitch_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_pitch_motor.gyro_angle,control_loop->gimbal_pitch_motor.gyro_angle_set);
+		control_loop->gimbal_pitch_motor.given_current=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_pid,control_loop->gimbal_pitch_motor.motor_gyro_palstance,control_loop->gimbal_pitch_motor.motor_gyro_palstance_set);
 
     
    
 }
 
+/**
+  * @brief          设置云台控制设定值，控制值是通过gimbal_behaviour_control_set函数设置的
+  * @param[out]     gimbal_set_control:"gimbal_control"变量指针.
+  * @retval         none
+  */
+static void gimbal_set_control(gimbal_control_t *set_control)
+{
+    if (set_control == NULL)
+    {
+        return;
+    }
 
+    fp32 add_yaw_angle = 0.0f;
+    fp32 add_pitch_angle = 0.0f;
+    static int16_t yaw_channel = 0, pitch_channel = 0;
+
+    rc_deadband_limit(set_control->gimbal_rc_ctrl->rc.ch[YAW_CHANNEL], yaw_channel, RC_DEADBAND);
+    rc_deadband_limit(set_control->gimbal_rc_ctrl->rc.ch[PITCH_CHANNEL], pitch_channel, RC_DEADBAND);
+
+    add_yaw_angle = yaw_channel * YAW_RC_SEN - set_control->gimbal_rc_ctrl->mouse.x * YAW_MOUSE_SEN;
+    add_pitch_angle = pitch_channel * PITCH_RC_SEN + set_control->gimbal_rc_ctrl->mouse.y * PITCH_MOUSE_SEN;
+		set_control->gimbal_yaw_motor.gyro_angle_set+=add_yaw_angle;
+     set_control->gimbal_pitch_motor.gyro_angle_set+=add_pitch_angle;
+}
 
 //static void gimbal_motor_relative_angle_control(gimbal_motor_t *gimbal_motor)
 //{
