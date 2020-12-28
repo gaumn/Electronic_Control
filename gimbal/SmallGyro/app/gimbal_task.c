@@ -7,7 +7,7 @@
 #include "remote_control.h"
 #include "INS_task.h"
 #include "pid.h"
-
+#include "shoot.h"
 
 //motor enconde value format, range[0-8191]
 //电机编码值规整 0—8191
@@ -36,7 +36,7 @@ gimbal_control_t gimbal_control;
 
 //motor current 
 //发送的电机电流
- int16_t yaw_can_set_current = 0, pitch_can_set_current = 0;
+ int16_t yaw_can_set_current = 0, pitch_can_set_current = 0,shoot_can_set_current=0;
 /**
   * @brief          云台任务，间隔 GIMBAL_CONTROL_TIME 1ms
   * @param[in]      pvParameters: 空
@@ -51,7 +51,8 @@ void gimbal_task(void const *pvParameters)
     //gimbal init
     //云台初始化
     gimbal_init(&gimbal_control);
-
+	  //射击初始化
+    shoot_init();
     //wait for all motor online
     //判断电机是否都上线    
 	vTaskDelay(GIMBAL_CONTROL_TIME);   
@@ -61,7 +62,7 @@ void gimbal_task(void const *pvParameters)
        
         gimbal_feedback_update(&gimbal_control);             //云台数据反馈
         gimbal_control_loop(&gimbal_control);                //云台控制PID计算
-
+        shoot_can_set_current = shoot_control_loop();        //射击任务控制循环
 #if YAW_TURN
         yaw_can_set_current = -gimbal_control.gimbal_yaw_motor.given_current;
 #else
@@ -73,7 +74,7 @@ void gimbal_task(void const *pvParameters)
 #else
         pitch_can_set_current = gimbal_control.gimbal_pitch_motor.given_current;
 #endif
-        CAN_cmd_chassis(yaw_can_set_current, pitch_can_set_current, 0, 0);
+        CAN_cmd_chassis(yaw_can_set_current, pitch_can_set_current, shoot_can_set_current, 0);
 
 #if GIMBAL_TEST_MODE
         J_scope_gimbal_test();

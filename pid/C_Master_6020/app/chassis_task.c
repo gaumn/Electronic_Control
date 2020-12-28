@@ -109,9 +109,9 @@ void chassis_task(void const *pvParameters)
         //底盘数据更新
         chassis_feedback_update(&chassis_move);
         
-//				CAN_cmd_chassis(1000,0,0,0);
-        CAN_cmd_chassis(chassis_move.motor_chassis[0].give_voltage, chassis_move.motor_chassis[1].give_voltage,
-                        chassis_move.motor_chassis[2].give_voltage, chassis_move.motor_chassis[3].give_voltage);  
+				CAN_cmd_chassis(200,0,0,0);
+//        CAN_cmd_chassis(chassis_move.motor_chassis[0].give_voltage, chassis_move.motor_chassis[1].give_voltage,
+//                        chassis_move.motor_chassis[2].give_voltage, chassis_move.motor_chassis[3].give_voltage);  
         //os delay
         //系统延时
         vTaskDelay(CHASSIS_CONTROL_TIME_MS);

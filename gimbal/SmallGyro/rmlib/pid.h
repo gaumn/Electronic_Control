@@ -174,6 +174,7 @@ typedef struct
     fp32 error[3]; //误差项 0最新 1上一次 2上上次
 
 } pid_type_def;
+
 enum PID_MODE
 {
     PID_POSITION = 0,

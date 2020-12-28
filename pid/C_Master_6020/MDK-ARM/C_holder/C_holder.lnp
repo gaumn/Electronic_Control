@@ -1,4 +1,4 @@
---cpu Cortex-M4.fp
+--cpu=Cortex-M4.fp
 "c_holder\startup_stm32f407xx.o"
 "c_holder\chassis_task.o"
 "c_holder\can_user.o"
@@ -52,6 +52,6 @@
 "c_holder\heap_4.o"
 "c_holder\port.o"
 --library_type=microlib --strict --scatter "C_holder\C_holder.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "C_holder.map" -o C_holder\C_holder.axf

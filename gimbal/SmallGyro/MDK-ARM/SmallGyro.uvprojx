@@ -134,7 +134,7 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4103</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
@@ -441,6 +441,11 @@
               <FileName>gimbal_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\gimbal_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>shoot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\shoot.c</FilePath>
             </File>
           </Files>
         </Group>

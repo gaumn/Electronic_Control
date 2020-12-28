@@ -93,14 +93,14 @@ void vApp_User_CAN_Configuration(void)
 	vApp_CAN_Configuration(&hcan1,&hCAN1_TxHeader, &hCAN1_Filter,
 												/* TxHeader æ‰±˙≈‰÷√ */
 												/* StdId ExtId IDE RTR DLC */
-												0x1FF, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
+												0x200, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
 												/* Filter   æ‰±˙≈‰÷√ */
 												/* IdHigh IdLow MaskIdHigh MaskIdLow FIFOAssignment Bank Mode Scale Activation SlaveStartFilterBank */
 												0, 0, 0, 0, CAN_FILTER_FIFO0, 0, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 14);
 	vApp_CAN_Configuration(&hcan2,&hCAN2_TxHeader, &hCAN2_Filter,
 												/* TxHeader æ‰±˙≈‰÷√ */
 												/* StdId ExtId IDE RTR DLC */
-												0x200, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
+												0x1FF, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
 												/* Filter   æ‰±˙≈‰÷√ */
 												/* IdHigh IdLow MaskIdHigh MaskIdLow FIFOAssignment Bank Mode Scale Activation SlaveStartFilterBank */
 												0, 0, 0, 0, CAN_FILTER_FIFO0, 14, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 27);
@@ -204,16 +204,14 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
      if(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &hCAN1_RxHeader, aRxData) == HAL_OK)
     {
        // printf("\nGet Rx Message Success!!\nData:");
-    
-			
     }
 		switch(hCAN1_RxHeader.StdId){
-		                case CAN_6020Moto1_ID:
-		                case CAN_6020Moto2_ID:
-		                case CAN_6020Moto3_ID:
-		                case CAN_6020Moto4_ID:
+		                case CAN1_Moto1_ID:
+		                case CAN1_Moto2_ID:
+		                case CAN1_Moto3_ID:
+		                case CAN1_Moto4_ID:
 			                {
-			                  	i = hCAN1_RxHeader.StdId - CAN_6020Moto1_ID;
+			                  	i = hCAN1_RxHeader.StdId - CAN_Moto_ALL_ID;
 		                 		  motor_chassis[i].msg_cnt++ <= 50 ? get_moto_offset(&motor_chassis[i], aRxData) : get_motor_measure(&motor_chassis[i],aRxData);
 												  break;
 											}
@@ -222,6 +220,27 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 														break;
 												}						
     }
+		
+		 if(HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0, &hCAN2_RxHeader, aRxData) == HAL_OK)
+    {
+       // printf("\nGet Rx Message Success!!\nData:");
+    }
+			switch(hCAN2_RxHeader.StdId){
+		                case CAN2_Moto1_ID:
+		                case CAN2_Moto2_ID:
+		                case CAN2_Moto3_ID:
+		                case CAN2_Moto4_ID:
+			                {
+			                  	i = hCAN2_RxHeader.StdId - CAN_Moto_ALL_ID;
+		                 		  motor_chassis[i].msg_cnt++ <= 50 ? get_moto_offset(&motor_chassis[i], aRxData) : get_motor_measure(&motor_chassis[i],aRxData);
+												  break;
+											}
+										default:
+												{
+														break;
+												}						
+    }
+		
 		
 }
 /**
@@ -302,10 +321,19 @@ const motor_measure_t *get_pitch_gimbal_motor_measure_point(void)
 {
     return &motor_chassis[1];
 }
-//const motor_measure_t *get_trigger_motor_measure_point(void)
-//{
-//    return &motor_chassis[5];
-//}
+const motor_measure_t *get_pluck_motor_measure_point(void)
+{
+    return &motor_chassis[2];
+}
+
+const motor_measure_t *get_Friction1_motor_measure_point(void)
+{
+    return &motor_chassis[4];
+}
+const motor_measure_t *get_Friction2_motor_measure_point(void)
+{
+    return &motor_chassis[5];
+}
 const motor_measure_t *get_chassis_motor_measure_point(uint8_t i)
 {
     return &motor_chassis[(i & 0x03)];

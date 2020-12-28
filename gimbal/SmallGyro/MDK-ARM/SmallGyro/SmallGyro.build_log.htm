@@ -17,28 +17,17 @@ Library Manager: ArmAr.exe V5.06 update 6 (build 750)
 Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
 CPU DLL:         SARMCM3.DLL V5.27.0.0
 Dialog DLL:      DCM.DLL V1.17.2.0
-Target DLL:      UL2CM3.DLL V1.162.7.0
+Target DLL:      Segger\JL2CM3.dll V2.99.34.0
 Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
 C:\Users\gaumn\Desktop\git_robomaster\Electronic_Control\gimbal\SmallGyro\MDK-ARM\SmallGyro.uvprojx
-Project File Date:  12/25/2020
+Project File Date:  12/27/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\KEil\MDK\ARM\ARMCC\Bin'
 Build target 'SmallGyro'
-compiling gimbal_task.c...
-..\app\gimbal_task.c(102): warning:  #177-D: variable "Pitch_palstance_pid"  was declared but never referenced
-  		fp32 Pitch_palstance_pid[3] = {PITCH_PALSTANCE_PID_KP, PITCH_PALSTANCE_PID_KI, PITCH_PALSTANCE_PID_KD};
-..\app\gimbal_task.c(104): warning:  #177-D: variable "Pitch_gyro_angle_pid"  was declared but never referenced
-  		fp32 Pitch_gyro_angle_pid[3] = {PITCH_GYRO_ANGLE_PID_KP, PITCH_GYRO_ANGLE_PID_KI, PITCH_GYRO_ANGLE_PID_KD};
-..\app\gimbal_task.c(155): warning:  #177-D: function "motor_ecd_to_angle_change"  was declared but never referenced
-  static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd)
-..\app\gimbal_task.c: 3 warnings, 0 errors
-linking...
-Program Size: Code=34416 RO-data=688 RW-data=288 ZI-data=30600  
-FromELF: creating hex file...
-"SmallGyro\SmallGyro.axf" - 0 Error(s), 3 Warning(s).
+"SmallGyro\SmallGyro.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -78,7 +67,7 @@ Package Vendor: Keil
 
    * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:EVR:1.2.0
       Source file:   Source\retarget_io.c
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

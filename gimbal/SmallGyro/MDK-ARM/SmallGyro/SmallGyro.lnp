@@ -9,6 +9,7 @@
 "smallgyro\ins_task.o"
 "smallgyro\remote_control.o"
 "smallgyro\gimbal_task.o"
+"smallgyro\shoot.o"
 "smallgyro\pid.o"
 "smallgyro\bmi088middleware.o"
 "smallgyro\ist8310driver.o"

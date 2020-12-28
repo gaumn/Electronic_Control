@@ -7,12 +7,16 @@
 #include "gpio.h"
 typedef enum
 {
-
-	CAN_6020Moto_ALL_ID = 0x204,
-	CAN_6020Moto1_ID = 0x205,
-	CAN_6020Moto2_ID = 0x206,
-	CAN_6020Moto3_ID = 0x207,
-	CAN_6020Moto4_ID = 0x208,
+	CAN_Moto_ALL_ID = 0x201,
+	CAN1_Moto1_ID = 0x201,
+	CAN1_Moto2_ID = 0x202,
+	CAN1_Moto3_ID = 0x203,
+	CAN1_Moto4_ID = 0x204,
+	
+	CAN2_Moto1_ID = 0x205,
+	CAN2_Moto2_ID = 0x206,
+	CAN2_Moto3_ID = 0x207,
+	CAN2_Moto4_ID = 0x208,
 	
 }CAN_Message_ID;
 #define FILTER_BUF_LEN		5
@@ -83,7 +87,9 @@ extern void CAN_cmd_chassis(int16_t motor1, int16_t motor2, int16_t motor3, int1
 extern void CAN_cmd_gimbal(int16_t motor1, int16_t motor2, int16_t motor3, int16_t motor4);
 extern const motor_measure_t *get_yaw_gimbal_motor_measure_point(void);
 extern const motor_measure_t *get_pitch_gimbal_motor_measure_point(void);
-extern const motor_measure_t *get_trigger_motor_measure_point(void);
+extern const motor_measure_t *get_pluck_motor_measure_point(void);
+extern const motor_measure_t *get_Friction1_motor_measure_point(void);
+extern const motor_measure_t *get_Friction2_motor_measure_point(void);
 extern const motor_measure_t *get_chassis_motor_measure_point(uint8_t i);
 
 #endif

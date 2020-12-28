@@ -1,0 +1,9 @@
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Source\retarget_io.c
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\string.h
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\assert.h
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\ARMCC\Bin\..\include\rt_sys.h
+smallgyro\retarget_io.o: .\RTE\_SmallGyro\RTE_Components.h
+smallgyro\retarget_io.o: E:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include\EventRecorder.h

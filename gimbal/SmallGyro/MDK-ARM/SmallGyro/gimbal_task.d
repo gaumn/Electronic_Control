@@ -63,3 +63,4 @@ smallgyro\gimbal_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queu
 smallgyro\gimbal_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 smallgyro\gimbal_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 smallgyro\gimbal_task.o: ..\app\INS_task.h
+smallgyro\gimbal_task.o: ..\app\shoot.h
