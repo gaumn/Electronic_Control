@@ -2,7 +2,7 @@
 #include "usart.h"
 
 CAN_TxHeaderTypeDef hCAN1_TxHeader; //CAN1发送消息
-CAN_RxHeaderTypeDef	hCAN1_RxHeader;      	//CAN1接收消息
+CAN_RxHeaderTypeDef	hCAN_RxHeader;      	//CAN接收消息
 CAN_FilterTypeDef   hCAN1_Filter;					//CAN1滤波器
 CAN_TxHeaderTypeDef hCAN2_TxHeader; //CAN2发送消息
 CAN_RxHeaderTypeDef	hCAN2_RxHeader;      	//CAN2接收消息
@@ -96,14 +96,14 @@ void vApp_User_CAN_Configuration(void)
 												0x200, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
 												/* Filter   句柄配置 */
 												/* IdHigh IdLow MaskIdHigh MaskIdLow FIFOAssignment Bank Mode Scale Activation SlaveStartFilterBank */
-												0, 0, 0, 0, CAN_FILTER_FIFO0, 0, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 14);
+												0, 0, 0, 0, CAN_FILTER_FIFO0, 0, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 13);
 	vApp_CAN_Configuration(&hcan2,&hCAN2_TxHeader, &hCAN2_Filter,
 												/* TxHeader 句柄配置 */
 												/* StdId ExtId IDE RTR DLC */
 												0x1FF, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
 												/* Filter   句柄配置 */
 												/* IdHigh IdLow MaskIdHigh MaskIdLow FIFOAssignment Bank Mode Scale Activation SlaveStartFilterBank */
-												0, 0, 0, 0, CAN_FILTER_FIFO0, 14, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 27);
+												0, 0, 0, 0, CAN_RX_FIFO0, 14, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 14);
 }
 /*******************************************************************************
 * Function Name  : vApp_CAN_Configuration
@@ -201,17 +201,21 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
     uint8_t aRxData[8], i;
     
-     if(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &hCAN1_RxHeader, aRxData) == HAL_OK)
+    if(HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &hCAN_RxHeader, aRxData) == HAL_OK)
     {
        // printf("\nGet Rx Message Success!!\nData:");
     }
-		switch(hCAN1_RxHeader.StdId){
+		switch(hCAN_RxHeader.StdId){
 		                case CAN1_Moto1_ID:
 		                case CAN1_Moto2_ID:
 		                case CAN1_Moto3_ID:
 		                case CAN1_Moto4_ID:
+										case CAN2_Moto1_ID:
+		                case CAN2_Moto2_ID:
+		                case CAN2_Moto3_ID:
+		                case CAN2_Moto4_ID:
 			                {
-			                  	i = hCAN1_RxHeader.StdId - CAN_Moto_ALL_ID;
+			                  	i = hCAN_RxHeader.StdId - CAN_Moto_ALL_ID;
 		                 		  motor_chassis[i].msg_cnt++ <= 50 ? get_moto_offset(&motor_chassis[i], aRxData) : get_motor_measure(&motor_chassis[i],aRxData);
 												  break;
 											}
@@ -221,25 +225,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 												}						
     }
 		
-		 if(HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0, &hCAN2_RxHeader, aRxData) == HAL_OK)
-    {
-       // printf("\nGet Rx Message Success!!\nData:");
-    }
-			switch(hCAN2_RxHeader.StdId){
-		                case CAN2_Moto1_ID:
-		                case CAN2_Moto2_ID:
-		                case CAN2_Moto3_ID:
-		                case CAN2_Moto4_ID:
-			                {
-			                  	i = hCAN2_RxHeader.StdId - CAN_Moto_ALL_ID;
-		                 		  motor_chassis[i].msg_cnt++ <= 50 ? get_moto_offset(&motor_chassis[i], aRxData) : get_motor_measure(&motor_chassis[i],aRxData);
-												  break;
-											}
-										default:
-												{
-														break;
-												}						
-    }
+
 		
 		
 }
@@ -283,12 +269,7 @@ void get_motor_measure(motor_measure_t *ptr, uint8_t data[])
         (ptr)->speed_rpm = (uint16_t)((data)[2] << 8 | (data)[3]);      
         (ptr)->current = (uint16_t)((data)[4] << 8 | (data)[5]);  
         (ptr)->temperate = (data)[6];           
-				if(flag==1){
-						flag=0;
-					 (ptr)->speed_rpm= ((ptr)->speed_rpm+ (ptr)->last_speed_rpm)/2;
-				}else{
-						flag=1;
-				}
+				
 				if(ptr->ecd - ptr->last_ecd > 4096)
 					ptr->round_cnt --;
 				else if (ptr->ecd - ptr->last_ecd < -4096)
@@ -315,11 +296,11 @@ set_motor_current(&hcan2,&hCAN1_TxHeader,motor1,motor2,motor3,motor4);
 
 const motor_measure_t *get_yaw_gimbal_motor_measure_point(void)
 {
-    return &motor_chassis[0];
+    return &motor_chassis[4];
 }
 const motor_measure_t *get_pitch_gimbal_motor_measure_point(void)
 {
-    return &motor_chassis[1];
+    return &motor_chassis[5];
 }
 const motor_measure_t *get_pluck_motor_measure_point(void)
 {
@@ -328,11 +309,11 @@ const motor_measure_t *get_pluck_motor_measure_point(void)
 
 const motor_measure_t *get_Friction1_motor_measure_point(void)
 {
-    return &motor_chassis[4];
+    return &motor_chassis[0];
 }
 const motor_measure_t *get_Friction2_motor_measure_point(void)
 {
-    return &motor_chassis[5];
+    return &motor_chassis[1];
 }
 const motor_measure_t *get_chassis_motor_measure_point(uint8_t i)
 {

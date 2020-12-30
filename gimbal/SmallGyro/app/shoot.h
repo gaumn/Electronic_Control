@@ -61,6 +61,7 @@
 #define SWITCH_TRIGGER_ON           0
 #define SWITCH_TRIGGER_OFF          1
 
+
 //卡单时间 以及反转时间
 #define BLOCK_TRIGGER_SPEED         1.0f
 #define BLOCK_TIME                  700
@@ -69,6 +70,14 @@
 
 #define PI_FOUR                     0.78539816339744830961566084581988f
 #define PI_TEN                      0.314f
+//摩擦轮set
+#define Friction_SPEED_SET       8800.0f
+//摩擦轮速度环pid
+#define Friction_SPEED_PID_KP       15.0f
+#define Friction_SPEED_PID_KI        0.1f
+#define Friction_SPEED_PID_KD        0.0f
+#define Friction_SPEED_PID_MAX_OUT   16384.0f
+#define Friction_SPEED_PID_MAX_IOUT  3000.0f
 
 //拨弹轮电机PID角度
 #define PLUCK_ANGLE_PID_KP        1.0f
@@ -108,15 +117,21 @@ typedef struct
     const motor_measure_t *shoot_pluck_measure;
 	  const motor_measure_t *shoot_Friction1_measure;
 	  const motor_measure_t *shoot_Friction2_measure;
+	
     pid_type_def pluck_motor_angle_pid;
 	  pid_type_def pluck_motor_speed_pid;
-    fp32 trigger_speed_set;
+	  pid_type_def friction1_motor_speed_pid;
+		pid_type_def friction2_motor_speed_pid;
+    fp32 friction1_speed_set;
+	  fp32 friction2_speed_set;
     fp32 speed;
     fp32 speed_set;
     fp32 angle;
     fp32 set_angle;
 		fp32 msg_cnt;
     int16_t given_current;
+	  int16_t friction1_given_current;
+	  int16_t friction2_given_current;
     int8_t ecd_count;
 
 } shoot_control_t;

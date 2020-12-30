@@ -463,17 +463,17 @@ static void chassis_control_loop(chassis_move_t *chassis_move_control_loop)
     chassis_vector_to_mecanum_wheel_speed(chassis_move_control_loop->vx_set,
                                           chassis_move_control_loop->vy_set, chassis_move_control_loop->wz_set, wheel_speed);
 
-    if (chassis_move_control_loop->chassis_mode == CHASSIS_VECTOR_RAW)
-    {
-        
-        for (i = 0; i < 4; i++)
-        {
-            chassis_move_control_loop->motor_chassis[i].give_current = (int16_t)(wheel_speed[i]);
-        }
-        //in raw mode, derectly return
-        //raw控制直接返回
-        return;
-    }
+//    if (chassis_move_control_loop->chassis_mode == CHASSIS_VECTOR_RAW)
+//    {
+//        
+//        for (i = 0; i < 4; i++)
+//        {
+//            chassis_move_control_loop->motor_chassis[i].give_current = (int16_t)(wheel_speed[i]);
+//        }
+//        //in raw mode, derectly return
+//        //raw控制直接返回
+//        return;
+//    }
 
     //calculate the max speed in four wheels, limit the max speed
     //计算轮子控制最大速度，并限制其最大速度
