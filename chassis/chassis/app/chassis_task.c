@@ -238,7 +238,9 @@ static void chassis_init(chassis_move_t *chassis_move_init)
 
     chassis_move_init->vy_max_speed = NORMAL_MAX_CHASSIS_SPEED_Y;
     chassis_move_init->vy_min_speed = -NORMAL_MAX_CHASSIS_SPEED_Y;
-
+		//陀螺仪数据初始化
+		chassis_move_init->chassis_yaw = rad_format(*(chassis_move_init->chassis_INS_angle + INS_YAW_ADDRESS_OFFSET));
+    chassis_move_init->chassis_yaw_set =chassis_move_init->chassis_yaw;
     //update data
     //更新一下数据
     chassis_feedback_update(chassis_move_init);
@@ -400,14 +402,15 @@ static void chassis_set_contorl(chassis_move_t *chassis_move_control)
     }
 
 
-    fp32 vx_set = 0.0f, vy_set = 0.0f, angle_set = 0.0f;
+    fp32 vx_set = 0.0f, vy_set = 0.0f, angle_set = 0.0f,delat_angle = 0.0f;
     //get three control set-point, 获取三个控制设置值
-    //chassis_behaviour_control_set(&vx_set, &vy_set, &angle_set, chassis_move_control);
     chassis_rc_to_control_vector(&vx_set, &vy_set, chassis_move_control);
-    angle_set = -CHASSIS_WZ_RC_SEN * chassis_move_control->chassis_RC->rc.ch[CHASSIS_WZ_CHANNEL];
-    //"angle_set" is rotation speed set-point
-    //“angle_set” 是旋转速度控制
-    chassis_move_control->wz_set = angle_set;
+    angle_set =rad_format(chassis_move_control->chassis_yaw_set - CHASSIS_ANGLE_Z_RC_SEN * chassis_move_control->chassis_RC->rc.ch[CHASSIS_WZ_CHANNEL]);
+		//设置底盘控制的角度
+    chassis_move_control->chassis_yaw_set = rad_format(angle_set);
+    delat_angle = rad_format(chassis_move_control->chassis_yaw_set - chassis_move_control->chassis_yaw);
+    //计算旋转的角速度
+    chassis_move_control->wz_set = PID_calc(&chassis_move_control->chassis_angle_pid, 0.0f, delat_angle);
     chassis_move_control->vx_set = fp32_constrain(vx_set, chassis_move_control->vx_min_speed, chassis_move_control->vx_max_speed);
     chassis_move_control->vy_set = fp32_constrain(vy_set, chassis_move_control->vy_min_speed, chassis_move_control->vy_max_speed);
   
@@ -462,18 +465,6 @@ static void chassis_control_loop(chassis_move_t *chassis_move_control_loop)
     //麦轮运动分解
     chassis_vector_to_mecanum_wheel_speed(chassis_move_control_loop->vx_set,
                                           chassis_move_control_loop->vy_set, chassis_move_control_loop->wz_set, wheel_speed);
-
-//    if (chassis_move_control_loop->chassis_mode == CHASSIS_VECTOR_RAW)
-//    {
-//        
-//        for (i = 0; i < 4; i++)
-//        {
-//            chassis_move_control_loop->motor_chassis[i].give_current = (int16_t)(wheel_speed[i]);
-//        }
-//        //in raw mode, derectly return
-//        //raw控制直接返回
-//        return;
-//    }
 
     //calculate the max speed in four wheels, limit the max speed
     //计算轮子控制最大速度，并限制其最大速度

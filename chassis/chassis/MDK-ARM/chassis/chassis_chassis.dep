@@ -366,8 +366,8 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x5E5B8D86)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x5E5B8D86)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x5E5B8D86)
 I (..\bsp\boards\bsp_delay.h)(0x5E16ECD7)
-F (..\app\chassis_task.c)(0x5FEC33A3)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\app -I ..\bsp\boards -I ..\bsp -I ..\rmlib -I ..\rmlib\algorithm -I ..\rmlib\devices-I.\RTE\Compiler-I.\RTE\_chassis-IE:\KEil\MDK\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IE:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include-IE:\KEil\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.12.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o chassis\chassis_task.o --omf_browse chassis\chassis_task.crf --depend chassis\chassis_task.d)
-I (..\app\chassis_task.h)(0x5FE9CA82)
+F (..\app\chassis_task.c)(0x5FEC6B6C)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\app -I ..\bsp\boards -I ..\bsp -I ..\rmlib -I ..\rmlib\algorithm -I ..\rmlib\devices-I.\RTE\Compiler-I.\RTE\_chassis-IE:\KEil\MDK\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IE:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include-IE:\KEil\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.12.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o chassis\chassis_task.o --omf_browse chassis\chassis_task.crf --depend chassis\chassis_task.d)
+I (..\app\chassis_task.h)(0x5FEC702C)
 I (..\app\struct_typedef.h)(0x5E16ECD7)
 I (..\bsp\can_user.h)(0x5FE89457)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E5B8DB9)
@@ -911,7 +911,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x5E5B8D86
 I (..\bsp\can_user.h)(0x5FE89457)
 I (../Inc/can.h)(0x5FE97E83)
 I (../Inc/gpio.h)(0x5FE97E7C)
-I (..\app\chassis_task.h)(0x5FE9CA82)
+I (..\app\chassis_task.h)(0x5FEC702C)
 I (..\app\struct_typedef.h)(0x5E16ECD7)
 I (..\rmlib\pid.h)(0x5FE875B1)
 I (..\rmlib\algorithm\user_lib.h)(0x5FE9CC64)
