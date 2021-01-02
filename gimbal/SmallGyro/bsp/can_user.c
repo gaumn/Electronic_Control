@@ -93,14 +93,14 @@ void vApp_User_CAN_Configuration(void)
 	vApp_CAN_Configuration(&hcan1,&hCAN1_TxHeader, &hCAN1_Filter,
 												/* TxHeader æ‰±˙≈‰÷√ */
 												/* StdId ExtId IDE RTR DLC */
-												0x200, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
+												0x1FF, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
 												/* Filter   æ‰±˙≈‰÷√ */
 												/* IdHigh IdLow MaskIdHigh MaskIdLow FIFOAssignment Bank Mode Scale Activation SlaveStartFilterBank */
 												0, 0, 0, 0, CAN_FILTER_FIFO0, 0, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 13);
 	vApp_CAN_Configuration(&hcan2,&hCAN2_TxHeader, &hCAN2_Filter,
 												/* TxHeader æ‰±˙≈‰÷√ */
 												/* StdId ExtId IDE RTR DLC */
-												0x1FF, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
+												0x200, 0, CAN_ID_STD, CAN_RTR_DATA, 0x08,
 												/* Filter   æ‰±˙≈‰÷√ */
 												/* IdHigh IdLow MaskIdHigh MaskIdLow FIFOAssignment Bank Mode Scale Activation SlaveStartFilterBank */
 												0, 0, 0, 0, CAN_RX_FIFO0, 14, CAN_FILTERMODE_IDMASK, CAN_FILTERSCALE_32BIT, ENABLE, 14);
@@ -296,24 +296,24 @@ set_motor_current(&hcan2,&hCAN2_TxHeader,motor1,motor2,motor3,motor4);
 
 const motor_measure_t *get_yaw_gimbal_motor_measure_point(void)
 {
-    return &motor_chassis[0];
+    return &motor_chassis[4];
 }
 const motor_measure_t *get_pitch_gimbal_motor_measure_point(void)
 {
-    return &motor_chassis[1];
+    return &motor_chassis[5];
 }
 const motor_measure_t *get_pluck_motor_measure_point(void)
 {
-    return &motor_chassis[2];
+    return &motor_chassis[6];
 }
 
 const motor_measure_t *get_Friction1_motor_measure_point(void)
 {
-    return &motor_chassis[4];
+    return &motor_chassis[0];
 }
 const motor_measure_t *get_Friction2_motor_measure_point(void)
 {
-    return &motor_chassis[5];
+    return &motor_chassis[1];
 }
 const motor_measure_t *get_chassis_motor_measure_point(uint8_t i)
 {

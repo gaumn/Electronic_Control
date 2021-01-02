@@ -123,7 +123,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h)(0x5E5B8DB9)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x5E5B8DB9)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x5E5B8DB9)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5E5B8DB9)
-F (..\bsp\can_user.c)(0x5FED4134)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\app -I ..\bsp -I ..\bsp\boards -I ..\rmlib -I ..\rmlib\algorithm -I ..\rmlib\devices -I ..\rmlib\algorithm\Include-I.\RTE\Compiler-I.\RTE\_SmallGyro-IE:\KEil\MDK\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IE:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include-IE:\KEil\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.12.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o smallgyro\can_user.o --omf_browse smallgyro\can_user.crf --depend smallgyro\can_user.d)
+F (..\bsp\can_user.c)(0x5FEF08B2)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\app -I ..\bsp -I ..\bsp\boards -I ..\rmlib -I ..\rmlib\algorithm -I ..\rmlib\devices -I ..\rmlib\algorithm\Include-I.\RTE\Compiler-I.\RTE\_SmallGyro-IE:\KEil\MDK\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IE:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include-IE:\KEil\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.12.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o smallgyro\can_user.o --omf_browse smallgyro\can_user.crf --depend smallgyro\can_user.d)
 I (..\bsp\can_user.h)(0x5FE89457)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E5B8DB9)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5FE09AC1)
@@ -374,8 +374,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x5E5B8DB9)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x5E5B8DB9)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5E5B8DB9)
 I (E:\KEil\MDK\ARM\ARMCC\include\string.h)(0x599ECD2C)
-F (..\app\gimbal_task.c)(0x5FE9D9D1)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\app -I ..\bsp -I ..\bsp\boards -I ..\rmlib -I ..\rmlib\algorithm -I ..\rmlib\devices -I ..\rmlib\algorithm\Include-I.\RTE\Compiler-I.\RTE\_SmallGyro-IE:\KEil\MDK\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IE:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include-IE:\KEil\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.12.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o smallgyro\gimbal_task.o --omf_browse smallgyro\gimbal_task.crf --depend smallgyro\gimbal_task.d)
-I (..\app\gimbal_task.h)(0x5FEAC8F5)
+F (..\app\gimbal_task.c)(0x5FF02B76)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ..\app -I ..\bsp -I ..\bsp\boards -I ..\rmlib -I ..\rmlib\algorithm -I ..\rmlib\devices -I ..\rmlib\algorithm\Include-I.\RTE\Compiler-I.\RTE\_SmallGyro-IE:\KEil\MDK\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IE:\KEil\MDK\ARM\PACK\Keil\ARM_Compiler\1.6.1\Include-IE:\KEil\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.12.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx-o smallgyro\gimbal_task.o --omf_browse smallgyro\gimbal_task.crf --depend smallgyro\gimbal_task.d)
+I (..\app\gimbal_task.h)(0x5FF02BF8)
 I (..\app\struct_typedef.h)(0x5E16ECD7)
 I (..\bsp\can_user.h)(0x5FE89457)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5E5B8DB9)
@@ -483,7 +483,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5E5B8DB9)
 I (../Inc/can.h)(0x5FE09ABD)
 I (../Inc/main.h)(0x5FE09AC1)
 I (../Inc/gpio.h)(0x5FE09AB5)
-I (..\app\gimbal_task.h)(0x5FEAC8F5)
+I (..\app\gimbal_task.h)(0x5FF02BF8)
 I (..\rmlib\pid.h)(0x5FE875B1)
 I (..\rmlib\algorithm\user_lib.h)(0x5E16ECD7)
 I (..\app\remote_control.h)(0x5E16ECD7)
@@ -1041,7 +1041,7 @@ I (..\app\struct_typedef.h)(0x5E16ECD7)
 I (..\rmlib\pid.h)(0x5FE875B1)
 I (..\rmlib\algorithm\user_lib.h)(0x5E16ECD7)
 I (..\app\INS_task.h)(0x5E16ECD7)
-I (..\app\gimbal_task.h)(0x5FEAC8F5)
+I (..\app\gimbal_task.h)(0x5FF02BF8)
 I (..\app\remote_control.h)(0x5E16ECD7)
 I (..\bsp\bsp_rc.h)(0x5E16ECD7)
 I (..\bsp\struct_typedef.h)(0x5E16ECD7)

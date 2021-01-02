@@ -36,7 +36,7 @@ uint32_t gimbal_high_water;
 #endif
 static void gimbal_init(gimbal_control_t *init);
 static void gimbal_feedback_update(gimbal_control_t *feedback_update);
-//static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd);
+static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd);
 static void gimbal_control_loop(gimbal_control_t *control_loop);
 static void gimbal_set_control(gimbal_control_t *set_control);
 #if GIMBAL_TEST_MODE
@@ -119,6 +119,8 @@ static void gimbal_init(gimbal_control_t *init)
     fp32 Yaw_palstance_pid[3] = {YAW_PALSTANCE_PID_KP, YAW_PALSTANCE_PID_KI, YAW_PALSTANCE_PID_KD};
 		fp32 Pitch_gyro_angle_pid[3] = {PITCH_GYRO_ANGLE_PID_KP, PITCH_GYRO_ANGLE_PID_KI, PITCH_GYRO_ANGLE_PID_KD};
     fp32 Yaw_gyro_angle_pid[3] = {YAW_GYRO_ANGLE_PID_KP, YAW_GYRO_ANGLE_PID_KI, YAW_GYRO_ANGLE_PID_KD};
+	  const static fp32 motor_speed_pid[3]     = {M6020_MOTOR_SPEED_PID_KP   ,M6020_MOTOR_SPEED_PID_KI   ,M6020_MOTOR_SPEED_PID_KD};
+		const static fp32 motor_position_pid[3]  = {M6020_MOTOR_POSITION_PID_KP,M6020_MOTOR_POSITION_PID_KI,M6020_MOTOR_POSITION_PID_KD};
     //电机数据指针获取
     init->gimbal_yaw_motor.gimbal_motor_measure = get_yaw_gimbal_motor_measure_point();
     init->gimbal_pitch_motor.gimbal_motor_measure = get_pitch_gimbal_motor_measure_point();
@@ -132,17 +134,19 @@ static void gimbal_init(gimbal_control_t *init)
     PID_init(&init->gimbal_yaw_motor.gimbal_motor_gyro_pid, PID_POSITION, Yaw_palstance_pid, YAW_PALSTANCE_PID_MAX_OUT, YAW_PALSTANCE_PID_MAX_IOUT);
     PID_init(&init->gimbal_yaw_motor.gimbal_motor_gyro_angle_pid, PID_POSITION, Yaw_gyro_angle_pid, YAW_GYRO_ANGLE_PID_MAX_OUT, YAW_GYRO_ANGLE_PID_MAX_IOUT);
     //初始化pitch电机pid
-    PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_pid, PID_POSITION, Pitch_palstance_pid, PITCH_PALSTANCE_PID_MAX_OUT, PITCH_PALSTANCE_PID_MAX_IOUT);
-    PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid, PID_POSITION, Pitch_gyro_angle_pid, PITCH_GYRO_ANGLE_PID_MAX_OUT, PITCH_GYRO_ANGLE_PID_MAX_IOUT);
-  
+//    PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_pid, PID_POSITION, Pitch_palstance_pid, PITCH_PALSTANCE_PID_MAX_OUT, PITCH_PALSTANCE_PID_MAX_IOUT);
+//    PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid, PID_POSITION, Pitch_gyro_angle_pid, PITCH_GYRO_ANGLE_PID_MAX_OUT, PITCH_GYRO_ANGLE_PID_MAX_IOUT);
+    
+		PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_pid,   PID_POSITION,    motor_speed_pid  , M6020_MOTOR_SPEED_PID_MAX_OUT  , M6020_MOTOR_SPEED_PID_MAX_IOUT  );
+		PID_init(&init->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid,PID_POSITION,motor_position_pid, M6020_MOTOR_POSITION_PID_MAX_OUT  , M6020_MOTOR_POSITION_PID_MAX_IOUT);
 
     gimbal_feedback_update(init);
 
     init->gimbal_yaw_motor.gyro_angle_set = init->gimbal_yaw_motor.gyro_angle;
     init->gimbal_yaw_motor.motor_gyro_palstance_set = init->gimbal_yaw_motor.motor_gyro_palstance;
 		
-    init->gimbal_pitch_motor.gyro_angle_set = init->gimbal_pitch_motor.gyro_angle;
-    init->gimbal_pitch_motor.motor_gyro_palstance_set = init->gimbal_pitch_motor.motor_gyro_palstance;
+//    init->gimbal_pitch_motor.gyro_angle_set = motor_ecd_to_angle_change(init->gimbal_pitch_motor.gimbal_motor_measure->ecd,init->gimbal_pitch_motor.gimbal_motor_measure->offset_ecd);
+    init->gimbal_pitch_motor.ecd_set= 4500.0f;
 
 //    init->gimbal_pitch_motor.absolute_angle_set = init->gimbal_pitch_motor.absolute_angle;
 //    init->gimbal_pitch_motor.relative_angle_set = init->gimbal_pitch_motor.relative_angle;
@@ -163,30 +167,38 @@ static void gimbal_feedback_update(gimbal_control_t *feedback_update)
         return;
     }
     //云台数据更新
-    feedback_update->gimbal_pitch_motor.gyro_angle = *(feedback_update->gimbal_INT_angle_point + INS_PITCH_ADDRESS_OFFSET);
+   
+			
     feedback_update->gimbal_yaw_motor.gyro_angle = *(feedback_update->gimbal_INT_angle_point + INS_YAW_ADDRESS_OFFSET);
-		
-		feedback_update->gimbal_pitch_motor.motor_gyro_palstance = *(feedback_update->gimbal_INT_gyro_point + INS_PITCH_ADDRESS_OFFSET);
 		feedback_update->gimbal_yaw_motor.motor_gyro_palstance=*(feedback_update->gimbal_INT_gyro_point + INS_YAW_ADDRESS_OFFSET);
+		//pitch轴陀螺仪
+//		feedback_update->gimbal_pitch_motor.gyro_angle = *(feedback_update->gimbal_INT_angle_point + INS_PITCH_ADDRESS_OFFSET);
+//		feedback_update->gimbal_pitch_motor.motor_gyro_palstance = *(feedback_update->gimbal_INT_gyro_point + INS_PITCH_ADDRESS_OFFSET);
 
+//pitch轴纯机械角度
+    feedback_update->gimbal_pitch_motor.motor_speed=feedback_update->gimbal_pitch_motor.gimbal_motor_measure->speed_rpm;
+		feedback_update->gimbal_pitch_motor.ecd=feedback_update->gimbal_pitch_motor.gimbal_motor_measure->ecd;
 		
+//		feedback_update->gimbal_pitch_motor.gyro_angle= motor_ecd_to_angle_change(feedback_update->gimbal_pitch_motor.gimbal_motor_measure->ecd,feedback_update->gimbal_pitch_motor.gimbal_motor_measure->offset_ecd);
+//		feedback_update->gimbal_pitch_motor.motor_gyro_palstance=feedback_update->gimbal_pitch_motor.gimbal_motor_measure->speed_rpm;
+//		
 
 }
 
-//static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd)
-//{
-//    int32_t relative_ecd = ecd - offset_ecd;
-//    if (relative_ecd > HALF_ECD_RANGE)
-//    {
-//        relative_ecd -= ECD_RANGE;
-//    }
-//    else if (relative_ecd < -HALF_ECD_RANGE)
-//    {
-//        relative_ecd += ECD_RANGE;
-//    }
+static fp32 motor_ecd_to_angle_change(uint16_t ecd, uint16_t offset_ecd)
+{
+    int32_t relative_ecd = ecd - offset_ecd;
+    if (relative_ecd > HALF_ECD_RANGE)
+    {
+        relative_ecd -= ECD_RANGE;
+    }
+    else if (relative_ecd < -HALF_ECD_RANGE)
+    {
+        relative_ecd += ECD_RANGE;
+    }
 
-//    return relative_ecd * MOTOR_ECD_TO_RAD;
-//}
+    return relative_ecd * MOTOR_ECD_TO_RAD;
+}
 /**
   * @brief          控制循环，根据控制设定值，计算电机电流值，进行控制
   * @param[out]     gimbal_control_loop:"gimbal_control"变量指针.
@@ -200,12 +212,13 @@ static void gimbal_control_loop(gimbal_control_t *control_loop)
     }
 
 	  control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_yaw_motor.gyro_angle,control_loop->gimbal_yaw_motor.gyro_angle_set);
-		control_loop->gimbal_yaw_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_pid,control_loop->gimbal_yaw_motor.motor_gyro_palstance,control_loop->gimbal_yaw_motor.motor_gyro_palstance_set);
+		control_loop->gimbal_yaw_motor.given_current=PID_calc(&control_loop->gimbal_yaw_motor.gimbal_motor_gyro_pid,control_loop->gimbal_yaw_motor.motor_gyro_palstance,control_loop->gimbal_yaw_motor.motor_gyro_palstance_set);
 		
-	  control_loop->gimbal_pitch_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_pitch_motor.gyro_angle,control_loop->gimbal_pitch_motor.gyro_angle_set);
-		control_loop->gimbal_pitch_motor.given_current=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_pid,control_loop->gimbal_pitch_motor.motor_gyro_palstance,control_loop->gimbal_pitch_motor.motor_gyro_palstance_set);
+//	  control_loop->gimbal_pitch_motor.motor_gyro_palstance_set=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_pitch_motor.gyro_angle,control_loop->gimbal_pitch_motor.gyro_angle_set);
+//		control_loop->gimbal_pitch_motor.given_current=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_pid,control_loop->gimbal_pitch_motor.motor_gyro_palstance,control_loop->gimbal_pitch_motor.motor_gyro_palstance_set);
 
-    
+    control_loop->gimbal_pitch_motor.speed_set=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_angle_pid,control_loop->gimbal_pitch_motor.ecd,control_loop->gimbal_pitch_motor.ecd_set);
+    control_loop->gimbal_pitch_motor.given_current=PID_calc(&control_loop->gimbal_pitch_motor.gimbal_motor_gyro_pid, control_loop->gimbal_pitch_motor.motor_speed,control_loop->gimbal_pitch_motor.speed_set); 
    
 }
 
@@ -231,7 +244,7 @@ static void gimbal_set_control(gimbal_control_t *set_control)
     add_yaw_angle = yaw_channel * YAW_RC_SEN - set_control->gimbal_rc_ctrl->mouse.x * YAW_MOUSE_SEN;
     add_pitch_angle = pitch_channel * PITCH_RC_SEN + set_control->gimbal_rc_ctrl->mouse.y * PITCH_MOUSE_SEN;
 		set_control->gimbal_yaw_motor.gyro_angle_set+=add_yaw_angle;
-     set_control->gimbal_pitch_motor.gyro_angle_set+=add_pitch_angle;
+    set_control->gimbal_pitch_motor.ecd_set+=add_pitch_angle;
 }
 
 //static void gimbal_motor_relative_angle_control(gimbal_motor_t *gimbal_motor)

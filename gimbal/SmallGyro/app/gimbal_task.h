@@ -36,8 +36,8 @@
 #define PITCH_PALSTANCE_PID_KP        2900.0f
 #define PITCH_PALSTANCE_PID_KI        60.0f
 #define PITCH_PALSTANCE_PID_KD        0.0f
-#define PITCH_PALSTANCE_PID_MAX_OUT   30000.0f
-#define PITCH_PALSTANCE_PID_MAX_IOUT  10000.0f
+#define PITCH_PALSTANCE_PID_MAX_OUT   15000.0f
+#define PITCH_PALSTANCE_PID_MAX_IOUT  3000.0f
 
 //yaw palstance close-loop PID params, max out and max iout
 //yaw 角速度环 PID参数以及 PID最大输出，积分输出
@@ -80,7 +80,20 @@
 #define YAW_ENCODE_RELATIVE_PID_KD        0.0f
 #define YAW_ENCODE_RELATIVE_PID_MAX_OUT   10.0f
 #define YAW_ENCODE_RELATIVE_PID_MAX_IOUT  0.0f
+//6020
+#define M6020_MOTOR_SPEED_PID_KP 25.0f
+#define M6020_MOTOR_SPEED_PID_KI 0.05f
+#define M6020_MOTOR_SPEED_PID_KD 0.01f
+#define M6020_MOTOR_SPEED_PID_MAX_OUT  30000.0f
+#define M6020_MOTOR_SPEED_PID_MAX_IOUT 6000.0f
 
+//chassis motor position PID
+//底盘电机位置环PID
+#define M6020_MOTOR_POSITION_PID_KP 5.0f
+#define M6020_MOTOR_POSITION_PID_KI 0.0f
+#define M6020_MOTOR_POSITION_PID_KD 1.0f
+#define M6020_MOTOR_POSITION_PID_MAX_OUT   390.0f//从320 改成390 ，力大概从15000变成16000左右
+#define M6020_MOTOR_POSITION_PID_MAX_IOUT   0.0f
 
 //任务初始化 空闲一段时间
 #define GIMBAL_TASK_INIT_TIME 201
@@ -103,7 +116,7 @@
 
 
 #define YAW_RC_SEN    -0.000005f
-#define PITCH_RC_SEN  -0.000006f //0.005
+#define PITCH_RC_SEN   0.0016f //0.005/-0.000006f
 
 #define YAW_MOUSE_SEN   0.00005f
 #define PITCH_MOUSE_SEN 0.00015f
@@ -117,7 +130,7 @@
 //云台测试模式 宏定义 0 为不使用测试模式
 #define GIMBAL_TEST_MODE 0
 
-#define PITCH_TURN  1
+#define PITCH_TURN  0
 #define YAW_TURN    0
 
 //电机码盘值最大以及中值
@@ -203,6 +216,9 @@ typedef struct
     fp32 motor_gyro_palstance;         //rad/s
     fp32 motor_gyro_palstance_set;
     fp32 motor_speed;
+	  fp32 ecd;
+  	fp32 ecd_set;
+		fp32 speed_set;
     fp32 raw_cmd_current;
     fp32 current_set;
     int16_t given_current;
