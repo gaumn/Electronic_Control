@@ -423,11 +423,6 @@
           <GroupName>app</GroupName>
           <Files>
             <File>
-              <FileName>chassis_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\chassis_task.c</FilePath>
-            </File>
-            <File>
               <FileName>INS_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\INS_task.c</FilePath>
@@ -446,6 +441,11 @@
               <FileName>shoot.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\shoot.c</FilePath>
+            </File>
+            <File>
+              <FileName>chassis_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\chassis_task.c</FilePath>
             </File>
           </Files>
         </Group>

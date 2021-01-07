@@ -31,6 +31,9 @@
 #include "can_user.h"
 #include "pid.h"
 #include "remote_control.h"
+#define PITCH_ENCODE_MAX 2800
+#define PITCH_ENCODE_MIN 1600
+#define YAW_ENCODE_MID 0.000767f
 //pitch palstance close-loop PID params, max out and max iout
 //pitch 角速度环 PID参数以及 PID最大输出，积分输出
 #define PITCH_PALSTANCE_PID_KP        2900.0f
@@ -52,7 +55,6 @@
 #define PITCH_GYRO_ANGLE_PID_KP 15.0f
 #define PITCH_GYRO_ANGLE_PID_KI 0.0f
 #define PITCH_GYRO_ANGLE_PID_KD 0.0f
-
 #define PITCH_GYRO_ANGLE_PID_MAX_OUT 10.0f
 #define PITCH_GYRO_ANGLE_PID_MAX_IOUT 0.0f
 
@@ -61,7 +63,7 @@
 #define YAW_GYRO_ANGLE_PID_KP        26.0f
 #define YAW_GYRO_ANGLE_PID_KI        0.0f
 #define YAW_GYRO_ANGLE_PID_KD        0.3f
-#define YAW_GYRO_ANGLE_PID_MAX_OUT   10.0f
+#define YAW_GYRO_ANGLE_PID_MAX_OUT   7.0f
 #define YAW_GYRO_ANGLE_PID_MAX_IOUT  0.0f
 
 //pitch encode angle close-loop PID params, max out and max iout
@@ -69,8 +71,7 @@
 #define PITCH_ENCODE_RELATIVE_PID_KP 15.0f
 #define PITCH_ENCODE_RELATIVE_PID_KI 0.00f
 #define PITCH_ENCODE_RELATIVE_PID_KD 0.0f
-
-#define PITCH_ENCODE_RELATIVE_PID_MAX_OUT 10.0f
+#define PITCH_ENCODE_RELATIVE_PID_MAX_OUT 7.0f
 #define PITCH_ENCODE_RELATIVE_PID_MAX_IOUT 0.0f
 
 //yaw encode angle close-loop PID params, max out and max iout
@@ -80,7 +81,8 @@
 #define YAW_ENCODE_RELATIVE_PID_KD        0.0f
 #define YAW_ENCODE_RELATIVE_PID_MAX_OUT   10.0f
 #define YAW_ENCODE_RELATIVE_PID_MAX_IOUT  0.0f
-//6020
+
+//6020速度环
 #define M6020_MOTOR_SPEED_PID_KP 25.0f
 #define M6020_MOTOR_SPEED_PID_KI 0.05f
 #define M6020_MOTOR_SPEED_PID_KD 0.01f
@@ -115,7 +117,7 @@
 #define RC_DEADBAND   10
 
 
-#define YAW_RC_SEN    -0.000005f
+#define YAW_RC_SEN    -0.0000005f
 #define PITCH_RC_SEN   0.0016f //0.005/-0.000006f
 
 #define YAW_MOUSE_SEN   0.00005f
@@ -176,6 +178,15 @@ typedef enum
     GIMBAL_MOTOR_GYRO,    //电机陀螺仪角度控制
     GIMBAL_MOTOR_ENCONDE, //电机编码值角度控制
 } gimbal_motor_mode_e;
+typedef enum
+{
+  GIMBAL_ZERO_FORCE = 0, //无力模式
+//  GIMBAL_INIT,           
+//  GIMBAL_CALI,     
+  GIMBAL_ABSOLUTE_ANGLE, //陀螺仪模式
+  GIMBAL_RELATIVE_ANGLE, //编码器模式
+//  GIMBAL_MOTIONLESS,     
+} gimbal_mode_e;
 
 typedef struct
 {
@@ -201,7 +212,7 @@ typedef struct
 {
     const motor_measure_t *gimbal_motor_measure;
     pid_type_def gimbal_motor_gyro_angle_pid;
-    pid_type_def gimbal_motor_relative_angle_pid;
+    pid_type_def gimbal_motor_encode_angle_pid;
     pid_type_def gimbal_motor_gyro_pid;
     gimbal_motor_mode_e gimbal_motor_mode;
     gimbal_motor_mode_e last_gimbal_motor_mode;
@@ -209,8 +220,9 @@ typedef struct
     fp32 max_relative_angle; //rad
     fp32 min_relative_angle; //rad
 
-    fp32 relative_angle;     //rad
-    fp32 relative_angle_set; //rad
+    fp32 encode_angle;     //rad
+    fp32 encode_angle_set; //rad
+	
     fp32 gyro_angle;     //rad
     fp32 gyro_angle_set; //rad
     fp32 motor_gyro_palstance;         //rad/s
@@ -243,6 +255,7 @@ typedef struct
     const RC_ctrl_t *gimbal_rc_ctrl;
     const fp32 *gimbal_INT_angle_point;
     const fp32 *gimbal_INT_gyro_point;
+	  gimbal_mode_e mode;
     gimbal_motor_t gimbal_yaw_motor;
     gimbal_motor_t gimbal_pitch_motor;
     gimbal_step_cali_t gimbal_cali;

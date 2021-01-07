@@ -89,7 +89,7 @@ int16_t shoot_control_loop(void)
 {
     shoot_feedback_update(); //更新数据
 
-	  shoot_control.speed_set=PID_calc(&shoot_control.pluck_motor_angle_pid,shoot_control.shoot_pluck_measure->total_ecd,shoot_control.set_angle);
+	  shoot_control.speed_set=PID_calc(&shoot_control.pluck_motor_angle_pid,shoot_control.shoot_pluck_measure->total_ecd/19,shoot_control.set_angle/19);
     shoot_control.given_current=PID_calc(&shoot_control.pluck_motor_speed_pid,shoot_control.shoot_pluck_measure->speed_rpm,shoot_control.speed_set);
 
     return shoot_control.given_current;

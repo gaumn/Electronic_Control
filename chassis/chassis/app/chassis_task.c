@@ -51,7 +51,7 @@
 static void chassis_init(chassis_move_t *chassis_move_init);
 
 /**
-  * @brief          set chassis control mode, mainly call 'chassis_behaviour_mode_set' function
+  * @brief          set chassis control chassis_mode, mainly call 'chassis_behaviour_mode_set' function
   * @param[out]     chassis_move_mode: "chassis_move" valiable point
   * @retval         none
   */
@@ -63,7 +63,7 @@ static void chassis_init(chassis_move_t *chassis_move_init);
 static void chassis_set_mode(chassis_move_t *chassis_move_mode);
 
 /**
-  * @brief          when chassis mode change, some param should be changed, suan as chassis yaw_set should be now chassis yaw
+  * @brief          when chassis chassis_mode change, some param should be changed, suan as chassis yaw_set should be now chassis yaw
   * @param[out]     chassis_move_transit: "chassis_move" valiable point
   * @retval         none
   */
@@ -143,10 +143,10 @@ void chassis_task(void const *pvParameters)
 
     while (1)
     {
-        //set chassis control mode
+        //set chassis control chassis_mode
         //设置底盘控制模式
         chassis_set_mode(&chassis_move);
-        //when mode changes, some data save
+        //when chassis_mode changes, some data save
         //模式切换数据保存
         chassis_mode_change_control_transit(&chassis_move);
         //chassis data update
@@ -205,9 +205,9 @@ static void chassis_init(chassis_move_t *chassis_move_init)
     const static fp32 chassis_y_order_filter[1] = {CHASSIS_ACCEL_Y_NUM};
     uint8_t i;
 
-    //in beginning， chassis mode is raw 
+    //in beginning， chassis chassis_mode is raw 
     //底盘开机状态为原始
-    chassis_move_init->chassis_mode = CHASSIS_VECTOR_RAW;
+    chassis_move_init->chassis_mode = CHASSIS__ZERO_FORCE;
     //get remote control point
     //获取遥控器指针
     chassis_move_init->chassis_RC = get_remote_control_point();
@@ -247,7 +247,7 @@ static void chassis_init(chassis_move_t *chassis_move_init)
 }
 
 /**
-  * @brief          set chassis control mode, mainly call 'chassis_behaviour_mode_set' function
+  * @brief          set chassis control chassis_mode, mainly call 'chassis_behaviour_mode_set' function
   * @param[out]     chassis_move_mode: "chassis_move" valiable point
   * @retval         none
   */
@@ -262,12 +262,28 @@ static void chassis_set_mode(chassis_move_t *chassis_move_mode)
     {
         return;
     }
+			
+    //开关控制 云台状态
+    if (switch_is_down(chassis_move_mode->chassis_RC->rc.s[CHASSIS_MODE_CHANNEL]))
+    {
+        chassis_move_mode->chassis_mode  = CHASSIS__ZERO_FORCE;
+    }
+    else if (switch_is_mid(chassis_move_mode->chassis_RC->rc.s[CHASSIS_MODE_CHANNEL]))
+    {
+         chassis_move_mode->chassis_mode = CHASSIS_VECTOR_FOLLOW_GIMBAL_YAW;
+    }
+    else if (switch_is_up(chassis_move_mode->chassis_RC->rc.s[CHASSIS_MODE_CHANNEL]))
+    {
+         chassis_move_mode->chassis_mode = CHASSIS_VECTOR_NO_FOLLOW_YAW;
+    }
 		
+		
+  
 
 }
 
 /**
-  * @brief          when chassis mode change, some param should be changed, suan as chassis yaw_set should be now chassis yaw
+  * @brief          when chassis chassis_mode change, some param should be changed, suan as chassis yaw_set should be now chassis yaw
   * @param[out]     chassis_move_transit: "chassis_move" valiable point
   * @retval         none
   */
@@ -359,10 +375,23 @@ void chassis_rc_to_control_vector(fp32 *vx_set, fp32 *vy_set, chassis_move_t *ch
     fp32 vx_set_channel, vy_set_channel;
     //deadline, because some remote control need be calibrated,  the value of rocker is not zero in middle place,
     //死区限制，因为遥控器可能存在差异 摇杆在中间，其值不为0
+		
     rc_deadband_limit(chassis_move_rc_to_vector->chassis_RC->rc.ch[CHASSIS_X_CHANNEL], vx_channel, CHASSIS_RC_DEADLINE);
     rc_deadband_limit(chassis_move_rc_to_vector->chassis_RC->rc.ch[CHASSIS_Y_CHANNEL], vy_channel, CHASSIS_RC_DEADLINE);
-    vx_set_channel = vx_channel * CHASSIS_VX_RC_SEN;
-    vy_set_channel = vy_channel * -CHASSIS_VY_RC_SEN;
+
+		if(chassis_move_rc_to_vector->chassis_mode==CHASSIS__ZERO_FORCE){
+			vx_set_channel = 0;
+			vy_set_channel = 0;
+		}
+		if(chassis_move_rc_to_vector->chassis_mode==CHASSIS_VECTOR_FOLLOW_GIMBAL_YAW){
+			vx_set_channel = vx_channel * CHASSIS_VX_RC_SEN;
+      vy_set_channel = vy_channel * -CHASSIS_VY_RC_SEN;
+			
+		}
+		if(chassis_move_rc_to_vector->chassis_mode==CHASSIS_VECTOR_NO_FOLLOW_YAW){
+			vx_set_channel = vx_channel * CHASSIS_VX_RC_SEN;
+			vy_set_channel = vy_channel * -CHASSIS_VY_RC_SEN;
+		}
     //first order low-pass replace ramp function, calculate chassis speed set-point to improve control performance
     //一阶低通滤波代替斜波作为底盘速度输入
     first_order_filter_cali(&chassis_move_rc_to_vector->chassis_cmd_slow_set_vx, vx_set_channel);
@@ -381,6 +410,7 @@ void chassis_rc_to_control_vector(fp32 *vx_set, fp32 *vy_set, chassis_move_t *ch
 
     *vx_set = chassis_move_rc_to_vector->chassis_cmd_slow_set_vx.out;
     *vy_set = chassis_move_rc_to_vector->chassis_cmd_slow_set_vy.out;
+	
 		
 }
 /**
@@ -400,17 +430,27 @@ static void chassis_set_contorl(chassis_move_t *chassis_move_control)
     {
         return;
     }
-
-
     fp32 vx_set = 0.0f, vy_set = 0.0f, angle_set = 0.0f,delat_angle = 0.0f;
     //get three control set-point, 获取三个控制设置值
     chassis_rc_to_control_vector(&vx_set, &vy_set, chassis_move_control);
     angle_set =rad_format(chassis_move_control->chassis_yaw_set - CHASSIS_ANGLE_Z_RC_SEN * chassis_move_control->chassis_RC->rc.ch[CHASSIS_WZ_CHANNEL]);
 		//设置底盘控制的角度
-    chassis_move_control->chassis_yaw_set = rad_format(angle_set);
-    delat_angle = rad_format(chassis_move_control->chassis_yaw_set - chassis_move_control->chassis_yaw);
+		
+		if(chassis_move_control->chassis_mode==CHASSIS__ZERO_FORCE){
+			chassis_move_control->wz_set = 0;
+			
+		}
+		if(chassis_move_control->chassis_mode==CHASSIS_VECTOR_FOLLOW_GIMBAL_YAW){
+		  chassis_move_control->chassis_yaw_set = rad_format(angle_set);
+			delat_angle = rad_format(chassis_move_control->chassis_yaw_set - chassis_move_control->chassis_yaw);
+			chassis_move_control->wz_set = PID_calc(&chassis_move_control->chassis_angle_pid, 0.0f, delat_angle);
+		}
+		
+		if(chassis_move_control->chassis_mode==CHASSIS_VECTOR_NO_FOLLOW_YAW){
+				 chassis_move_control->wz_set = -CHASSIS_WZ_RC_SEN * chassis_move_control->chassis_RC->rc.ch[CHASSIS_WZ_CHANNEL];
+			
+		}
     //计算旋转的角速度
-    chassis_move_control->wz_set = PID_calc(&chassis_move_control->chassis_angle_pid, 0.0f, delat_angle);
     chassis_move_control->vx_set = fp32_constrain(vx_set, chassis_move_control->vx_min_speed, chassis_move_control->vx_max_speed);
     chassis_move_control->vy_set = fp32_constrain(vy_set, chassis_move_control->vy_min_speed, chassis_move_control->vy_max_speed);
   

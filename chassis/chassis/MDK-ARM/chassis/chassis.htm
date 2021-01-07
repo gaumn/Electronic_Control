@@ -3,7 +3,7 @@
 <title>Static Call Graph - [chassis\chassis.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image chassis\chassis.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Dec 30 20:18:59 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jan 07 21:00:09 2021
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1090,10 +1090,10 @@ Global Symbols
 <P><STRONG><a name="[c4]"></a>HAL_I2C_Mem_Read</STRONG> (Thumb, 490 bytes, Stack size 64 bytes, stm32f4xx_hal_i2c.o(i.HAL_I2C_Mem_Read))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = HAL_I2C_Mem_Read &rArr; I2C_RequestMemoryRead &rArr; I2C_WaitOnMasterAddressFlagUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnRXNEFlagUntilTimeout
+<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnRXNEFlagUntilTimeout
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnFlagUntilTimeout
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_RequestMemoryRead
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ist8310_IIC_read_single_reg
 <LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ist8310_IIC_read_muli_reg
@@ -1102,11 +1102,11 @@ Global Symbols
 <P><STRONG><a name="[c8]"></a>HAL_I2C_Mem_Write</STRONG> (Thumb, 294 bytes, Stack size 64 bytes, stm32f4xx_hal_i2c.o(i.HAL_I2C_Mem_Write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = HAL_I2C_Mem_Write &rArr; I2C_RequestMemoryWrite &rArr; I2C_WaitOnMasterAddressFlagUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnTXEFlagUntilTimeout
+<BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnTXEFlagUntilTimeout
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnFlagUntilTimeout
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnBTFFlagUntilTimeout
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_RequestMemoryWrite
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ist8310_IIC_write_single_reg
 </UL>
@@ -1236,8 +1236,8 @@ Global Symbols
 <P><STRONG><a name="[88]"></a>HAL_SPI_TransmitReceive</STRONG> (Thumb, 482 bytes, Stack size 40 bytes, stm32f4xx_hal_spi.o(i.HAL_SPI_TransmitReceive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_EndRxTxTransaction
+<BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_EndRxTxTransaction
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BMI088_read_write_byte
 </UL>
@@ -1858,15 +1858,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BMI088_init
 </UL>
 
-<P><STRONG><a name="[12f]"></a>chassis_rc_to_control_vector</STRONG> (Thumb, 182 bytes, Stack size 24 bytes, chassis_task.o(i.chassis_rc_to_control_vector))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = chassis_rc_to_control_vector &rArr; first_order_filter_cali
+<P><STRONG><a name="[12f]"></a>chassis_rc_to_control_vector</STRONG> (Thumb, 208 bytes, Stack size 32 bytes, chassis_task.o(i.chassis_rc_to_control_vector))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = chassis_rc_to_control_vector &rArr; first_order_filter_cali
 </UL>
 <BR>[Calls]<UL><LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;first_order_filter_cali
 </UL>
 <BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_set_contorl
 </UL>
 
-<P><STRONG><a name="[61]"></a>chassis_task</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, chassis_task.o(i.chassis_task))
+<P><STRONG><a name="[61]"></a>chassis_task</STRONG> (Thumb, 122 bytes, Stack size 0 bytes, chassis_task.o(i.chassis_task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = chassis_task &rArr; CAN_cmd_chassis &rArr; set_motor_current &rArr; vApp_CAN_TxMessage &rArr; HAL_CAN_AddTxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_cmd_chassis
@@ -2445,8 +2445,8 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_task
 </UL>
 
-<P><STRONG><a name="[131]"></a>chassis_set_contorl</STRONG> (Thumb, 184 bytes, Stack size 32 bytes, chassis_task.o(i.chassis_set_contorl))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = chassis_set_contorl &rArr; chassis_rc_to_control_vector &rArr; first_order_filter_cali
+<P><STRONG><a name="[131]"></a>chassis_set_contorl</STRONG> (Thumb, 232 bytes, Stack size 32 bytes, chassis_task.o(i.chassis_set_contorl))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = chassis_set_contorl &rArr; chassis_rc_to_control_vector &rArr; first_order_filter_cali
 </UL>
 <BR>[Calls]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;loop_fp32_constrain
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fp32_constrain
@@ -2530,8 +2530,8 @@ Local Symbols
 <P><STRONG><a name="[cb]"></a>I2C_WaitOnBTFFlagUntilTimeout</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, stm32f4xx_hal_i2c.o(i.I2C_WaitOnBTFFlagUntilTimeout))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = I2C_WaitOnBTFFlagUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_IsAcknowledgeFailed
+<BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_IsAcknowledgeFailed
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Mem_Write
 </UL>
@@ -2567,8 +2567,8 @@ Local Symbols
 <P><STRONG><a name="[ca]"></a>I2C_WaitOnTXEFlagUntilTimeout</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, stm32f4xx_hal_i2c.o(i.I2C_WaitOnTXEFlagUntilTimeout))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = I2C_WaitOnTXEFlagUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_IsAcknowledgeFailed
+<BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_IsAcknowledgeFailed
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Mem_Write
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_RequestMemoryWrite
