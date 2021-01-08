@@ -126,7 +126,7 @@ static void shoot_feedback_update(void)
 		if(shoot_control.shoot_mode==SHOOT_DONE){
 		 if((shoot_control.shoot_pluck_measure->msg_cnt-shoot_control.msg_cnt)>500){
 			 shoot_control.shoot_mode=SHOOT_CONTINUE_BULLET;
-			 shoot_control.set_angle=shoot_control.shoot_pluck_measure->total_ecd-8192*36;
+			 shoot_control.set_angle=shoot_control.shoot_pluck_measure->total_ecd-8192*36*9;
 		 }
 		}
 

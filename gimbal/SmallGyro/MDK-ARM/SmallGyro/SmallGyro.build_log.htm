@@ -27,20 +27,6 @@ Project File Date:  01/07/2021
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\KEil\MDK\ARM\ARMCC\Bin'
 Build target 'SmallGyro'
-compiling gimbal_task.c...
-..\app\gimbal_task.c(119): warning:  #177-D: variable "Pitch_palstance_pid"  was declared but never referenced
-  		fp32 Pitch_palstance_pid[3] = {PITCH_PALSTANCE_PID_KP, PITCH_PALSTANCE_PID_KI, PITCH_PALSTANCE_PID_KD};
-..\app\gimbal_task.c(121): warning:  #177-D: variable "Pitch_gyro_angle_pid"  was declared but never referenced
-  		fp32 Pitch_gyro_angle_pid[3] = {PITCH_GYRO_ANGLE_PID_KP, PITCH_GYRO_ANGLE_PID_KI, PITCH_GYRO_ANGLE_PID_KD};
-..\app\gimbal_task.c(287): warning:  #177-D: variable "add_yaw_angle"  was declared but never referenced
-      fp32 add_yaw_angle = 0.0f;
-..\app\gimbal_task.c(289): warning:  #550-D: variable "yaw_channel"  was set but never used
-      static int16_t yaw_channel = 0, pitch_channel = 0;
-..\app\gimbal_task.c: 4 warnings, 0 errors
-compiling freertos.c...
-..\app\gimbal_task.h(89): warning:  #47-D: incompatible redefinition of macro "M6020_MOTOR_SPEED_PID_MAX_OUT"  (declared at line 70 of "..\app\chassis_task.h")
-  #define M6020_MOTOR_SPEED_PID_MAX_OUT  30000.0f
-../Src/freertos.c: 1 warning, 0 errors
 compiling shoot.c...
 ..\app\shoot.c(144): warning:  #177-D: function "shoot_bullet_control"  was declared but never referenced
   static void shoot_bullet_control(void)
@@ -48,7 +34,7 @@ compiling shoot.c...
 linking...
 Program Size: Code=35604 RO-data=760 RW-data=292 ZI-data=30980  
 FromELF: creating hex file...
-"SmallGyro\SmallGyro.axf" - 0 Error(s), 6 Warning(s).
+"SmallGyro\SmallGyro.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -88,7 +74,7 @@ Package Vendor: Keil
 
    * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:EVR:1.2.0
       Source file:   Source\retarget_io.c
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
