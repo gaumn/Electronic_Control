@@ -15,8 +15,6 @@
 "chassis_balance\ist8310driver_middleware.o"
 "chassis_balance\mahonyahrs.o"
 "chassis_balance\user_lib.o"
-"chassis_balance\eventrecorder.o"
-"chassis_balance\retarget_io.o"
 "chassis_balance\main.o"
 "chassis_balance\gpio.o"
 "chassis_balance\adc.o"
@@ -64,6 +62,8 @@
 "chassis_balance\cmsis_os.o"
 "chassis_balance\heap_4.o"
 "chassis_balance\port.o"
+"chassis_balance\eventrecorder.o"
+"chassis_balance\retarget_io.o"
 --library_type=microlib --strict --scatter "chassis_balance\chassis_balance.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

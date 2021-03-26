@@ -534,14 +534,16 @@ static void chassis_control_loop(chassis_move_t *chassis_move_control_loop)
     //calculate pid
     for (i = 0; i < 2; i++)
     {
-      chassis_move_control_loop->motor_pitch_palstance_set[i] = PID_calc(&chassis_move_control_loop->motor_position_pid[i], chassis_move_control_loop->chassis_pitch, chassis_move_control_loop->chassis_pitch_set);//+CHASSIS_WZ_RC_SEN*chassis_move_control_loop->chassis_RC->rc.ch[CHASSIS_VX_CHANNEL]
+      chassis_move_control_loop->motor_pitch_palstance_set[i] = PID_calc(&chassis_move_control_loop->motor_position_pid[i], chassis_move_control_loop->chassis_pitch, chassis_move_control_loop->chassis_pitch_set+CHASSIS_WZ_RC_SEN*chassis_move_control_loop->chassis_RC->rc.ch[CHASSIS_VX_CHANNEL]);//
    		//PID_calc(&chassis_move_control_loop->motor_speed_pid[i], chassis_move_control_loop->motor_chassis[i].speed, chassis_move_control_loop->motor_chassis[i].speed_set);
 		 //chassis_move_control_loop->motor_chassis[i].give_current=PID_calc(&chassis_move_control_loop->motor_position_pid[i], chassis_move_control_loop->chassis_pitch, chassis_move_control_loop->chassis_pitch_set);
 		
 		}
+//		 chassis_move_control_loop->motor_pitch_palstance_set[0] = PID_calc(&chassis_move_control_loop->motor_position_pid[0], chassis_move_control_loop->chassis_pitch, chassis_move_control_loop->chassis_pitch_set+CHASSIS_WZ_RC_SEN*chassis_move_control_loop->chassis_RC->rc.ch[CHASSIS_VX_CHANNEL]);
+//		 chassis_move_control_loop->motor_pitch_palstance_set[1] = -PID_calc(&chassis_move_control_loop->motor_position_pid[1], chassis_move_control_loop->chassis_pitch, chassis_move_control_loop->chassis_pitch_set+CHASSIS_WZ_RC_SEN*chassis_move_control_loop->chassis_RC->rc.ch[CHASSIS_VX_CHANNEL]);
     chassis_move_control_loop->motor_chassis[0].give_current=PID_calc(&chassis_move_control_loop->motor_palstance_pid[0], chassis_move_control_loop->motor_pitch_palstance, chassis_move_control_loop->motor_pitch_palstance_set[0]);
     chassis_move_control_loop->motor_chassis[1].give_current=-PID_calc(&chassis_move_control_loop->motor_palstance_pid[1], chassis_move_control_loop->motor_pitch_palstance, chassis_move_control_loop->motor_pitch_palstance_set[1]);
- 
+
 //   for (i = 0; i < 2; i++)
 //    {
 //       
